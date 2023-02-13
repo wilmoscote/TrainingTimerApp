@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.mikhaellopez.circularprogressbar.CircularProgressBar
@@ -17,7 +18,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
     private var job: Job = Job()
     private var isRunning = false
     private var remainingTime = 0
-    private var totalRoundTime = 0
+    private var totalRoundTime = 10
     private var breakTime = 0
     private var rounds = 0
     private var round = 1
@@ -32,15 +33,19 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.timerDurationEditText.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-                calculateTotalTime()
+        binding.btnRoundTimePlus.setOnClickListener {
+            if(totalRoundTime <= 999){
+                totalRoundTime += 5
             }
+            calculateTotalTime()
+        }
 
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-        })
+        binding.btnRoundTimeLess.setOnClickListener {
+            if(totalRoundTime >= 5){
+                totalRoundTime -= 5
+            }
+            calculateTotalTime()
+        }
 
         binding.timerBreakEditText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
@@ -83,6 +88,8 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
                 }
                 job = Job()
                 remainingTime = totalRoundTime
+                binding.progress.progressMax = (totalTime - breakTime).toFloat()
+                binding.progress.progress = 0f
                 startTimer()
             }
         }
@@ -114,11 +121,12 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
 
     private fun calculateTotalTime() {
         try {
-            totalRoundTime = binding.timerDurationEditText.text.toString().toInt()
+            Log.d("TimerDebug","Timer: ${totalRoundTime.toString()}")
+            binding.timerDurationEditText.setText(totalRoundTime.toString())
             breakTime = binding.timerBreakEditText.text.toString().toInt()
             rounds = binding.timerIntervalsEditText.text.toString().toInt()
             totalTime = ((totalRoundTime + breakTime) * rounds) - breakTime
-            binding.totalSessionTime.text = totalTime.toString()
+            binding.timerCountdownTextView.text = formatTime(totalTime)
         } catch (e: java.lang.Exception) {
             //
         }
@@ -126,9 +134,6 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
 
     private fun startTimer() {
         isRunning = true
-        binding.timerCountdownTextView.text = "$remainingTime sec"
-        binding.progress.progressMax = (totalTime - breakTime).toFloat()
-        binding.progress.progress = 0f
         launch {
             withContext(Dispatchers.IO) {
                 while (round <= rounds) {
@@ -138,6 +143,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
                         binding.progress.progressBarColorEnd = ContextCompat.getColor(this@MainActivity, R.color.material_700)
                         binding.progress.progressBarColorDirection =
                             CircularProgressBar.GradientDirection.TOP_TO_BOTTOM
+                        binding.timerInfo.text = getString(R.string.go_go)
                     }
                     for (i in 1..remainingTime) {
                         delay(1000)
@@ -147,9 +153,9 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
                             runOnUiThread {
                                 binding.progress.setProgressWithAnimation(
                                     (currentTime).toFloat(),
-                                    2000
+                                    1000
                                 )
-                                binding.timerCountdownTextView.text = "${remainingTime} sec"
+                                binding.timerCountdownTextView.text = formatTime((totalTime-currentTime)-breakTime)
                             }
                         }
                     }
@@ -160,10 +166,11 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
                         }
                         round++
                         runOnUiThread {
-                            binding.progress.progressBarColorStart = ContextCompat.getColor(this@MainActivity, R.color.material_purple_300)
-                            binding.progress.progressBarColorEnd = ContextCompat.getColor(this@MainActivity, R.color.material_purple_700)
+                            binding.progress.progressBarColorStart = ContextCompat.getColor(this@MainActivity, R.color.material_red_300)
+                            binding.progress.progressBarColorEnd = ContextCompat.getColor(this@MainActivity, R.color.material_red_700)
                             binding.progress.progressBarColorDirection =
                                 CircularProgressBar.GradientDirection.TOP_TO_BOTTOM
+                            binding.timerInfo.text = getString(R.string.break_info)
                         }
                         for (i in 1..breakTime) {
                             delay(1000)
@@ -171,9 +178,9 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
                             runOnUiThread {
                                 binding.progress.setProgressWithAnimation(
                                     (currentTime).toFloat(),
-                                    2000
+                                    1000
                                 )
-                                binding.timerCountdownTextView.text = "${breakTime - i} sec"
+                                binding.timerCountdownTextView.text = formatTime((totalTime-currentTime)-breakTime)
                             }
                         }
                     } else {
@@ -211,6 +218,11 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
                 Toast.makeText(this@MainActivity, "Timer stopped", Toast.LENGTH_SHORT).show()
             }
         }
+    }
 
+    private fun formatTime(seconds: Int): String {
+        val minutes = seconds / 60
+        val remainingSeconds = seconds % 60
+        return String.format("%02d:%02d", minutes, remainingSeconds)
     }
 }

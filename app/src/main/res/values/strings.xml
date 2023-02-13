@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Training Interval Timer</string>
+    <string name="config_button_hint">Botón de configuración</string>
+    <string name="until_next_break">Hasta el próximo descanso</string>
+    <string name="break_info">Descanso</string>
+    <string name="go_go">¡Vamos!</string>
 </resources>
