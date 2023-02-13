@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/timer_duration_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Duration (in seconds):" />
+
+    <EditText
+        android:id="@+id/timer_duration_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="10"/>
+
+    <TextView
+        android:id="@+id/timer_break_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Break Time (in seconds):" />
+
+    <EditText
+        android:id="@+id/timer_break_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="10"/>
+
+    <TextView
+        android:id="@+id/timer_intervals_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Intervals:" />
+
+    <EditText
+        android:id="@+id/timer_intervals_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="1"/>
+
+    <TextView
+        android:id="@+id/timer_countdown_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Countdown:" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/timer_start_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Start" />
+
+        <Button
+            android:id="@+id/timer_pause_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Pause" />
+
+        <Button
+            android:id="@+id/timer_stop_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Stop" />
+    </LinearLayout>
+    <TextView
+        android:id="@+id/totalSessionTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="0" />
+    <com.mikhaellopez.circularprogressbar.CircularProgressBar
+        android:id="@+id/progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cpb_background_progressbar_color="#b6bbd8"
+        app:cpb_background_progressbar_width="20dp"
+        app:cpb_progress_direction="to_right"
+        app:cpb_progressbar_color="#3f51b5"
+        app:cpb_progressbar_width="20dp"
+        app:cpb_round_border="true" />
+</LinearLayout>
