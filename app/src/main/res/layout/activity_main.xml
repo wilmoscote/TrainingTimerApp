@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".view.MainActivity">
 
     <LinearLayout
         android:id="@+id/linearLayout2"
@@ -20,9 +20,11 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/poppinsbold"
-            android:gravity="center_horizontal"
-            android:text="Duración de la Ronda:"
+            android:fontFamily="@font/poppinsmedium"
+            android:layout_marginStart="20dp"
+            android:textColor="?textAppearanceCaption"
+            android:text="@string/round_duration"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -30,20 +32,33 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
             android:orientation="horizontal">
 
+            <TextView
+                android:id="@+id/textRoundTime"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                tools:text="10"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:textSize="26sp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_weight="1"
+                android:textColor="?textAppearanceCaption"
+                android:fontFamily="@font/poppinsbold"
+                app:layout_constraintBaseline_toBaselineOf="@+id/timer_break_edit_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
             <FrameLayout
-                android:id="@+id/btnRoundTimeLess"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="15dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:layout_gravity="center_vertical"
-                >
+                android:layout_gravity="end">
 
                 <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
                     android:background="@drawable/ic_circle"
                     android:contentDescription="@string/config_button_hint"
                     android:scaleType="centerInside"
@@ -51,8 +66,9 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:id="@+id/btnRoundTimeLess"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
                     android:background="@drawable/ic_less"
                     android:contentDescription="@string/config_button_hint"
                     android:scaleType="centerInside"
@@ -60,30 +76,15 @@
                     app:layout_constraintTop_toTopOf="parent" />
             </FrameLayout>
 
-            <EditText
-                android:id="@+id/timer_duration_edit_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="10"
-                android:layout_gravity="center_vertical|center_horizontal"
-                android:focusable="false"
-                android:background="@null"
-                android:layout_marginHorizontal="20dp"
-                android:fontFamily="@font/poppinsbold"
-                app:layout_constraintBaseline_toBaselineOf="@+id/timer_break_edit_text"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
             <FrameLayout
-                android:id="@+id/btnRoundTimePlus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:layout_gravity="center_vertical">
+                android:layout_gravity="end">
 
                 <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
                     android:background="@drawable/ic_circle"
                     android:contentDescription="@string/config_button_hint"
                     android:scaleType="centerInside"
@@ -91,8 +92,9 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:id="@+id/btnRoundTimePlus"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
                     android:background="@drawable/ic_plus"
                     android:contentDescription="@string/config_button_hint"
                     android:scaleType="centerInside"
@@ -104,154 +106,170 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/poppinsbold"
-            android:gravity="center_horizontal"
-            android:text="Duración del Descanso:"
+            android:fontFamily="@font/poppinsmedium"
+            android:layout_marginStart="20dp"
+            android:textColor="?textAppearanceCaption"
+            android:text="@string/break_duration"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
             android:orientation="horizontal">
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical">
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/ic_circle"
-                    android:scaleType="centerInside"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:contentDescription="@string/config_button_hint"
-                    />
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/ic_less"
-                    android:scaleType="centerInside"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:contentDescription="@string/config_button_hint"
-                    />
-            </FrameLayout>
 
-            <EditText
-                android:id="@+id/timer_break_edit_text"
-                android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/textBreakTime"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="10"
-                android:background="@null"
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:fontFamily="@font/poppinsbold"
-                android:focusable="false"
-                android:layout_marginHorizontal="20dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/timer_duration_text_view" />
-
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical">
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/ic_circle"
-                    android:scaleType="centerInside"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:contentDescription="@string/config_button_hint"
-                    />
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/ic_plus"
-                    android:scaleType="centerInside"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:contentDescription="@string/config_button_hint"
-                    />
-            </FrameLayout>
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/timer_intervals_text_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Intervalos:"
-            android:gravity="center_horizontal"
-            android:fontFamily="@font/poppinsbold"
-            app:layout_constraintBaseline_toBaselineOf="@+id/timer_duration_text_view"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal">
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical">
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/ic_circle"
-                    android:scaleType="centerInside"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:contentDescription="@string/config_button_hint"
-                    />
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/ic_less"
-                    android:scaleType="centerInside"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:contentDescription="@string/config_button_hint"
-                    />
-            </FrameLayout>
-
-            <EditText
-                android:id="@+id/timer_intervals_edit_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="1"
-                android:background="@null"
-                android:layout_marginHorizontal="20dp"
+                tools:text="10"
                 android:layout_gravity="center_vertical|center_horizontal"
+                android:textColor="?textAppearanceCaption"
+                android:textSize="26sp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_weight="1"
                 android:fontFamily="@font/poppinsbold"
-                app:layout_constraintBaseline_toBaselineOf="@+id/timer_duration_edit_text"
+                app:layout_constraintBaseline_toBaselineOf="@+id/timer_break_edit_text"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical">
+                android:layout_marginHorizontal="15dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:layout_gravity="end">
+
                 <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
                     android:background="@drawable/ic_circle"
-                    android:scaleType="centerInside"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
                     android:contentDescription="@string/config_button_hint"
-                    />
+                    android:scaleType="centerInside"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
                 <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/ic_plus"
-                    android:scaleType="centerInside"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    android:id="@+id/btnBreakTimeLess"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:background="@drawable/ic_less"
                     android:contentDescription="@string/config_button_hint"
-                    />
+                    android:scaleType="centerInside"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:layout_gravity="end">
+
+                <ImageButton
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:background="@drawable/ic_circle"
+                    android:contentDescription="@string/config_button_hint"
+                    android:scaleType="centerInside"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageButton
+                    android:id="@+id/btnBreakTimePlus"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:background="@drawable/ic_plus"
+                    android:contentDescription="@string/config_button_hint"
+                    android:scaleType="centerInside"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </FrameLayout>
+        </LinearLayout>
+        <!-- BOTONES DE NUMERO DE INTERVALOS -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppinsmedium"
+            android:layout_marginStart="20dp"
+            android:textColor="?textAppearanceCaption"
+            android:text="@string/interval"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textInvertal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                tools:text="10"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:textSize="26sp"
+                android:textColor="?textAppearanceCaption"
+                android:layout_marginHorizontal="20dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/poppinsbold"
+                app:layout_constraintBaseline_toBaselineOf="@+id/timer_break_edit_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="15dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:layout_gravity="end">
+
+                <ImageButton
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:background="@drawable/ic_circle"
+                    android:contentDescription="@string/config_button_hint"
+                    android:scaleType="centerInside"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageButton
+                    android:id="@+id/btnIntervalLess"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:background="@drawable/ic_less"
+                    android:contentDescription="@string/config_button_hint"
+                    android:scaleType="centerInside"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:layout_gravity="end">
+
+                <ImageButton
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:background="@drawable/ic_circle"
+                    android:contentDescription="@string/config_button_hint"
+                    android:scaleType="centerInside"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageButton
+                    android:id="@+id/btnIntervalPlus"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:background="@drawable/ic_plus"
+                    android:contentDescription="@string/config_button_hint"
+                    android:scaleType="centerInside"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
             </FrameLayout>
         </LinearLayout>
     </LinearLayout>
@@ -272,7 +290,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_margin="5dp"
-            android:text="Start" />
+            android:backgroundTint="@color/material_700"
+            android:text="@string/start" />
 
         <Button
             android:id="@+id/timer_pause_button"
@@ -280,7 +299,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_margin="5dp"
-            android:text="Pause" />
+            android:backgroundTint="@color/material_700"
+            android:text="@string/pause" />
 
         <Button
             android:id="@+id/timer_stop_button"
@@ -288,16 +308,17 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_margin="5dp"
-            android:text="Stop" />
+            android:backgroundTint="@color/material_700"
+            android:text="@string/stop" />
     </LinearLayout>
 
     <TextView
-        android:id="@+id/timer_countdown_text_view"
+        android:id="@+id/timerCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/poppinsbold"
         android:gravity="center_horizontal|center_vertical"
-        android:text="00:00"
+        tools:text="00:00"
         android:textSize="64sp"
         app:layout_constraintBottom_toBottomOf="@+id/progress"
         app:layout_constraintEnd_toEndOf="@+id/progress"
@@ -313,14 +334,14 @@
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="@+id/progress"
         app:layout_constraintStart_toStartOf="@+id/progress"
-        app:layout_constraintTop_toBottomOf="@+id/timer_countdown_text_view" />
+        app:layout_constraintTop_toBottomOf="@+id/timerCount" />
 
     <com.mikhaellopez.circularprogressbar.CircularProgressBar
         android:id="@+id/progress"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="30dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="40dp"
         app:cpb_background_progressbar_color_direction="top_to_bottom"
         app:cpb_background_progressbar_color_end="#CFCFCF"
         app:cpb_background_progressbar_color_start="#B8B8B8"
@@ -333,12 +354,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageButton
-        android:id="@+id/button_circle"
+    <ImageView
+        android:id="@+id/btnSettings"
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_margin="10dp"
-        android:background="@drawable/ic_settings_outlined"
+        android:background="?selectableItemBackgroundBorderless"
+        android:src="@drawable/ic_settings_outlined"
         android:contentDescription="@string/config_button_hint"
         android:scaleType="centerInside"
         app:layout_constraintEnd_toEndOf="parent"

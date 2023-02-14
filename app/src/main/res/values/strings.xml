@@ -4,4 +4,11 @@
     <string name="until_next_break">Hasta el próximo descanso</string>
     <string name="break_info">Descanso</string>
     <string name="go_go">¡Vamos!</string>
+    <string name="round_duration">Duración de la Ronda:</string>
+    <string name="break_duration">Duración del Descanso:</string>
+    <string name="interval">Cantidad de Rondas:</string>
+    <string name="start">INICIAR</string>
+    <string name="pause">PAUSAR</string>
+    <string name="stop">DETENER</string>
+    <string name="resume">RESUMIR</string>
 </resources>
