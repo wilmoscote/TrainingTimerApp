@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.App" parent="Theme.MaterialComponents">
+        ...
+        <item name="colorPrimary">@color/purple_200</item>
+        <item name="colorOnPrimary">@color/material_300</item>
+        <item name="colorOnSurface">@color/material_700</item>
+        <item name="chipStyle">@style/Widget.App.Chip</item>
+    </style>
+
+    <style name="Widget.App.Chip" parent="Widget.MaterialComponents.TimePicker.Display">
+        <item name="android:textColor">@color/material_700</item>
+    </style>
+
+</resources>

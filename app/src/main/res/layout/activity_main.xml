@@ -8,20 +8,18 @@
     tools:context=".view.MainActivity">
 
     <LinearLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="0dp"
+        android:id="@+id/layoutControls"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
         android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/progress">
         <!-- BOTONES DE DURACION DE LA RONDA -->
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppinsmedium"
-            android:layout_marginStart="20dp"
             android:textColor="?textAppearanceCaption"
             android:text="@string/round_duration"
             android:textSize="16sp"
@@ -30,25 +28,147 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:id="@+id/layoutRoundDuration"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <TextView
+            <EditText
                 android:id="@+id/textRoundTime"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="10"
+                android:focusable="false"
                 android:layout_gravity="center_vertical|center_horizontal"
                 android:textSize="26sp"
-                android:layout_marginHorizontal="20dp"
-                android:layout_weight="1"
+                android:layout_marginHorizontal="5dp"
                 android:textColor="?textAppearanceCaption"
                 android:fontFamily="@font/poppinsbold"
                 app:layout_constraintBaseline_toBaselineOf="@+id/timer_break_edit_text"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
+            <ImageView
+                android:id="@+id/icEditRoundTime"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_edit"
+                android:contentDescription="@string/config_button_hint"
+                android:background="?selectableItemBackgroundBorderless"
+                android:scaleType="centerInside"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </LinearLayout>
+
+    <!-- BOTONES DE DURACION DEL DESCANSO -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppinsmedium"
+
+            android:textColor="?textAppearanceCaption"
+            android:text="@string/break_duration"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <EditText
+                android:id="@+id/textBreakTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="10"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:textColor="?textAppearanceCaption"
+                android:textSize="26sp"
+                android:focusable="false"
+                android:layout_marginHorizontal="5dp"
+                android:fontFamily="@font/poppinsbold"
+                app:layout_constraintBaseline_toBaselineOf="@+id/timer_break_edit_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_edit"
+                android:background="?selectableItemBackgroundBorderless"
+                android:contentDescription="@string/config_button_hint"
+                android:scaleType="centerInside"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </LinearLayout>
+        <!-- BOTONES DE NUMERO DE INTERVALOS -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppinsmedium"
+            android:textColor="?textAppearanceCaption"
+            android:text="@string/interval"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/textInvertal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="10"
+                android:focusable="false"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:textSize="26sp"
+                android:textColor="?textAppearanceCaption"
+                android:layout_marginHorizontal="5dp"
+                android:fontFamily="@font/poppinsbold"
+                app:layout_constraintBaseline_toBaselineOf="@+id/timer_break_edit_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_edit"
+                android:background="?selectableItemBackgroundBorderless"
+                android:contentDescription="@string/config_button_hint"
+                android:scaleType="centerInside"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layoutButtonsControls"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/progress">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppinsmedium"
+            android:layout_marginStart="20dp"
+            android:textColor="?textAppearanceCaption"
+            tools:text="Botones"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
             <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -102,37 +222,22 @@
                     app:layout_constraintTop_toTopOf="parent" />
             </FrameLayout>
         </LinearLayout>
-    <!-- BOTONES DE DURACION DEL DESCANSO -->
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppinsmedium"
             android:layout_marginStart="20dp"
+            android:layout_marginVertical="1dp"
             android:textColor="?textAppearanceCaption"
-            android:text="@string/break_duration"
+            tools:text="Botones"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/textBreakTime"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                tools:text="10"
-                android:layout_gravity="center_vertical|center_horizontal"
-                android:textColor="?textAppearanceCaption"
-                android:textSize="26sp"
-                android:layout_marginHorizontal="20dp"
-                android:layout_weight="1"
-                android:fontFamily="@font/poppinsbold"
-                app:layout_constraintBaseline_toBaselineOf="@+id/timer_break_edit_text"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
 
             <FrameLayout
                 android:layout_width="wrap_content"
@@ -187,38 +292,22 @@
                     app:layout_constraintTop_toTopOf="parent" />
             </FrameLayout>
         </LinearLayout>
-        <!-- BOTONES DE NUMERO DE INTERVALOS -->
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppinsmedium"
             android:layout_marginStart="20dp"
+            android:layout_marginVertical="1dp"
             android:textColor="?textAppearanceCaption"
-            android:text="@string/interval"
+            tools:text="Botones"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/textInvertal"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                tools:text="10"
-                android:layout_gravity="center_vertical|center_horizontal"
-                android:textSize="26sp"
-                android:textColor="?textAppearanceCaption"
-                android:layout_marginHorizontal="20dp"
-                android:layout_weight="1"
-                android:fontFamily="@font/poppinsbold"
-                app:layout_constraintBaseline_toBaselineOf="@+id/timer_break_edit_text"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
             <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -275,42 +364,99 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="0dp"
+        android:id="@+id/layoutButtons"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
         <Button
-            android:id="@+id/timer_start_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_margin="5dp"
-            android:backgroundTint="@color/material_700"
-            android:text="@string/start" />
+            android:id="@+id/timer_stop_button"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_margin="15dp"
+            android:background="@drawable/boton_reproducir"
+            android:foreground="@drawable/ic_stop" />
 
         <Button
             android:id="@+id/timer_pause_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_margin="5dp"
-            android:backgroundTint="@color/material_700"
-            android:text="@string/pause" />
-
-        <Button
-            android:id="@+id/timer_stop_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_margin="5dp"
-            android:backgroundTint="@color/material_700"
-            android:text="@string/stop" />
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_margin="15dp"
+            android:background="@drawable/boton_reproducir"
+            android:foreground="@drawable/ic_pause"
+            />
     </LinearLayout>
+    <LinearLayout
+        android:id="@+id/layoutTrainingInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        android:layout_margin="20dp"
+        android:gravity="center_horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/progress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/round"
+            android:layout_marginHorizontal="5dp"
+            android:textSize="26sp"
+            android:gravity="center_horizontal"
+            android:textColor="?textAppearanceCaption"
+            android:fontFamily="@font/poppinsmedium" />
+        <TextView
+            android:id="@+id/textCurrentRound"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            tools:text="1"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:textSize="26sp"
+            android:gravity="center_horizontal"
+            android:textColor="?textAppearanceCaption"
+            android:fontFamily="@font/poppinsbold" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            android:text="@string/slash"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:textSize="26sp"
+            android:gravity="center_horizontal"
+            android:textColor="?textAppearanceCaption"
+            android:fontFamily="@font/poppinsbold" />
+        <TextView
+            android:id="@+id/textTotalRound"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            tools:text="5"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:textSize="26sp"
+            android:gravity="center_horizontal"
+            android:textColor="?textAppearanceCaption"
+            android:fontFamily="@font/poppinsbold" />
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/timer_start_button"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:background="@drawable/boton_reproducir"
+        android:foreground="@drawable/ic_play"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_margin="15dp"
+        />
 
     <TextView
         android:id="@+id/timerCount"
@@ -320,6 +466,7 @@
         android:gravity="center_horizontal|center_vertical"
         tools:text="00:00"
         android:textSize="64sp"
+        android:textColor="?textAppearanceCaption"
         app:layout_constraintBottom_toBottomOf="@+id/progress"
         app:layout_constraintEnd_toEndOf="@+id/progress"
         app:layout_constraintStart_toStartOf="@+id/progress"

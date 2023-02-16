@@ -22,4 +22,12 @@
         <item name="windowSplashScreenAnimationDuration">500</item>
         <item name="postSplashScreenTheme">@style/Theme.TrainingIntervalTimer</item>
     </style>
+
+    <style name="WMPicker" parent="ThemeOverlay.MaterialComponents.TimePicker">
+        <item name="materialTimePickerStyle">@style/RoundedTimePickerStyle</item>
+    </style>
+
+    <style name="RoundedTimePickerStyle">
+        <item name="android:background">@drawable/dialog_rounded_background</item>
+    </style>
 </resources>
