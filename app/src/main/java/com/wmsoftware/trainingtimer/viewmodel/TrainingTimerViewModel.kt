@@ -182,6 +182,18 @@ class TrainingTimerViewModel : ViewModel(), CoroutineScope {
         }
     }
 
+    suspend fun manualBreakTime(time:Int){
+        withContext(Dispatchers.IO){
+            breakTime.postValue(time)
+        }
+    }
+
+    suspend fun manualRounds(time:Int){
+        withContext(Dispatchers.IO){
+            rounds.postValue(time)
+        }
+    }
+
     fun formatTime(seconds: Int): String {
         val minutes = seconds / 60
         val remainingSeconds = seconds % 60

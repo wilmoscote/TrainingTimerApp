@@ -2,9 +2,11 @@ package com.wmsoftware.trainingtimer.view
 
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.Typeface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
@@ -15,6 +17,7 @@ import com.google.android.material.timepicker.TimeFormat
 import com.mikhaellopez.circularprogressbar.CircularProgressBar
 import com.wmsoftware.trainingtimer.R
 import com.wmsoftware.trainingtimer.databinding.ActivityMainBinding
+import com.wmsoftware.trainingtimer.utils.UserPreferences
 import com.wmsoftware.trainingtimer.viewmodel.TrainingTimerViewModel
 import kotlinx.coroutines.*
 import java.util.*
@@ -28,11 +31,36 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        val userPreferences = UserPreferences(this)
+        lifecycleScope.launch(Dispatchers.IO) {
+            userPreferences.getUserTheme().collect { theme ->
+                if (theme == null) {
+                    runOnUiThread {
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+                    }
+                } else if (theme) {
+                    runOnUiThread {
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                    }
+                } else {
+                    runOnUiThread {
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                    }
+                }
+            }
+        }
+
         //Inicializo el viewModel para setear los valores por defecto
         lifecycleScope.launch {
             viewModel.init()
             viewModel.calculateTotalTime()
         }
+        val typefaceBold = Typeface.createFromAsset(assets, "Poppins-Bold.ttf")
+        val typefaceRegular = Typeface.createFromAsset(assets, "Poppins-Regular.ttf")
+        binding.minutePicker.typeface = typefaceRegular
+        binding.minutePicker.setSelectedTypeface(typefaceBold)
+        binding.secondsPicker.typeface = typefaceRegular
+        binding.secondsPicker.setSelectedTypeface(typefaceBold)
         //Inicializo el observer para saber cuando el timer se esta ejecutando
         viewModel.isRunning.observe(this){
             binding.timerStartButton.isVisible = !it
@@ -65,7 +93,7 @@ class MainActivity : AppCompatActivity() {
 
         /** Inicializo los botones para sumar y restar cantidad **/
         //Inicializo el boton para sumar 5 segundos al tiempo por ronda.
-        binding.btnRoundTimePlus.setOnClickListener {
+        /*binding.btnRoundTimePlus.setOnClickListener {
             lifecycleScope.launch {
                 viewModel.plusTotalRoundTime()
                 viewModel.calculateTotalTime()
@@ -77,7 +105,7 @@ class MainActivity : AppCompatActivity() {
                 viewModel.lessTotalRoundTime()
                 viewModel.calculateTotalTime()
             }
-        }
+        }*/
 
         //Inicializo el boton para sumar 5 segundos al tiempo de descanso
         binding.btnBreakTimePlus.setOnClickListener {
@@ -96,26 +124,29 @@ class MainActivity : AppCompatActivity() {
 
         //Inicializo el boton para sumar 1 intervalo a la sesión
         binding.btnIntervalPlus.setOnClickListener {
-            lifecycleScope.launch {
+            binding.roundsNumberPicker.value = binding.roundsNumberPicker.value + 1
+            /*lifecycleScope.launch {
                 viewModel.plusInterval()
                 viewModel.calculateTotalTime()
-            }
+            }*/
         }
         //Inicializo el boton para restar 1 intervalo a la sesión
         binding.btnIntervalLess.setOnClickListener {
-            lifecycleScope.launch {
+            binding.roundsNumberPicker.value = binding.roundsNumberPicker.value - 1
+            /*lifecycleScope.launch {
                 viewModel.lessInterval()
                 viewModel.calculateTotalTime()
-            }
+            }*/
         }
 
         //Obtengo el tiempo total de la sesión
         viewModel.totalTime.observe(this) {
-            binding.timerCount.text = viewModel.formatTime(it)
+            //binding.timerCount.text = viewModel.formatTime(it)
+
         }
 
         binding.btnSettings.setOnClickListener {
-           // startActivity(Intent(this,TrainingView::class.java))
+            startActivity(Intent(this,SettingActivity::class.java))
         }
         binding.timerStartButton.setOnClickListener {
             if (viewModel.isRunning.value != true) {
@@ -151,7 +182,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         viewModel.timerCountDownText.observe(this) {
-            binding.timerCount.text = it
+            //binding.timerCount.text = it
         }
 
         viewModel.progress.observe(this) {
@@ -204,6 +235,17 @@ class MainActivity : AppCompatActivity() {
         binding.icEditRoundTime.setOnClickListener {
             manualRoundTime()
         }
+
+        binding.icEditBreakTime.setOnClickListener {
+            //
+        }
+
+        binding.icEditRounds.setOnClickListener {
+            //
+        }
+
+        binding.roundsNumberPicker.minValue = 1
+        binding.roundsNumberPicker.maxValue = 99
     }
 
     private fun manualRoundTime(){
@@ -211,6 +253,7 @@ class MainActivity : AppCompatActivity() {
             .setInputMode(INPUT_MODE_KEYBOARD)
             .setTimeFormat(TimeFormat.CLOCK_24H)
             .setTitleText("Tiempo")
+            .setMinute(5)
             .build()
         picker.show(supportFragmentManager,"tag")
         picker.addOnPositiveButtonClickListener {
@@ -222,6 +265,52 @@ class MainActivity : AppCompatActivity() {
                 } else {
                     runOnUiThread {
                         Snackbar.make(binding.root,"Debe ingresar un tiempo mayor a 5 segundos.",Snackbar.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun manualBreakTime(){
+        val picker = MaterialTimePicker.Builder()
+            .setInputMode(INPUT_MODE_KEYBOARD)
+            .setTimeFormat(TimeFormat.CLOCK_24H)
+            .setTitleText("Tiempo")
+            .setMinute(5)
+            .build()
+        picker.show(supportFragmentManager,"tag")
+        picker.addOnPositiveButtonClickListener {
+            lifecycleScope.launch {
+                val time = (picker.hour * 60) + picker.minute
+                if (time >= 5){
+                    viewModel.manualBreakTime(time)
+                    viewModel.calculateTotalTime()
+                } else {
+                    runOnUiThread {
+                        Snackbar.make(binding.root,"Debe ingresar un tiempo mayor a 5 segundos.",Snackbar.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun manualRounds(){
+        val picker = MaterialTimePicker.Builder()
+            .setInputMode(INPUT_MODE_KEYBOARD)
+            .setTimeFormat(TimeFormat.CLOCK_24H)
+            .setTitleText("Tiempo")
+            .setMinute(5)
+            .build()
+        picker.show(supportFragmentManager,"tag")
+        picker.addOnPositiveButtonClickListener {
+            lifecycleScope.launch {
+                val time = (picker.hour * 60) + picker.minute
+                if (time >= 1){
+                    viewModel.manualRounds(time)
+                    viewModel.calculateTotalTime()
+                } else {
+                    runOnUiThread {
+                        Snackbar.make(binding.root,"El valor mínimo es 1.",Snackbar.LENGTH_SHORT).show()
                     }
                 }
             }

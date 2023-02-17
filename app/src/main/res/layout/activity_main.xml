@@ -23,6 +23,7 @@
             android:textColor="?textAppearanceCaption"
             android:text="@string/round_duration"
             android:textSize="16sp"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -31,6 +32,7 @@
             android:id="@+id/layoutRoundDuration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:orientation="horizontal">
 
             <EditText
@@ -92,6 +94,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
             <ImageView
+                android:id="@+id/icEditBreakTime"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_gravity="center_vertical"
@@ -118,7 +121,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-
+            <com.shawnlin.numberpicker.NumberPicker
+                android:id="@+id/roundsNumberPicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:np_dividerColor="@color/material_700"
+                app:np_max="99"
+                app:np_min="1"
+                app:np_selectedTextColor="@color/material_300"
+                app:np_textColor="?textAppearanceCaption"
+                app:np_textSize="12dp"
+                app:np_dividerDistance="50dp"
+                app:np_orientation="horizontal"
+                app:np_wrapSelectorWheel="false"
+                app:np_value="1" />
             <EditText
                 android:id="@+id/textInvertal"
                 android:layout_width="wrap_content"
@@ -134,6 +150,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
             <ImageView
+                android:id="@+id/icEditRounds"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_gravity="center_vertical"
@@ -165,63 +182,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="15dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:layout_gravity="end">
 
-                <ImageButton
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
-                    android:background="@drawable/ic_circle"
-                    android:contentDescription="@string/config_button_hint"
-                    android:scaleType="centerInside"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <ImageButton
-                    android:id="@+id/btnRoundTimeLess"
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
-                    android:background="@drawable/ic_less"
-                    android:contentDescription="@string/config_button_hint"
-                    android:scaleType="centerInside"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </FrameLayout>
-
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:layout_gravity="end">
-
-                <ImageButton
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
-                    android:background="@drawable/ic_circle"
-                    android:contentDescription="@string/config_button_hint"
-                    android:scaleType="centerInside"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <ImageButton
-                    android:id="@+id/btnRoundTimePlus"
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
-                    android:background="@drawable/ic_plus"
-                    android:contentDescription="@string/config_button_hint"
-                    android:scaleType="centerInside"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </FrameLayout>
-        </LinearLayout>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -459,12 +420,24 @@
         />
 
     <TextView
+        android:id="@+id/timerInfoTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppinsmedium"
+        android:gravity="center_horizontal|center_vertical"
+        android:textSize="14sp"
+        android:text="@string/round_duration"
+        app:layout_constraintEnd_toEndOf="@+id/progress"
+        app:layout_constraintStart_toStartOf="@+id/progress"
+        app:layout_constraintBottom_toTopOf="@+id/minutePicker" />
+
+    <TextView
         android:id="@+id/timerCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/poppinsbold"
         android:gravity="center_horizontal|center_vertical"
-        tools:text="00:00"
+        android:text="@string/timer_count_placeholder"
         android:textSize="64sp"
         android:textColor="?textAppearanceCaption"
         app:layout_constraintBottom_toBottomOf="@+id/progress"
@@ -483,6 +456,47 @@
         app:layout_constraintStart_toStartOf="@+id/progress"
         app:layout_constraintTop_toBottomOf="@+id/timerCount" />
 
+    <com.shawnlin.numberpicker.NumberPicker
+        android:id="@+id/minutePicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:np_dividerColor="?attr/colorControlNormal"
+        app:np_max="99"
+        app:np_min="1"
+        app:np_selectedTextColor="?textAppearanceCaption"
+        app:np_textColor="?textAppearanceCaption"
+        app:np_textSize="20sp"
+        app:np_selectedTextSize="30sp"
+        app:np_dividerDistance="50dp"
+        app:np_orientation="vertical"
+        app:np_wrapSelectorWheel="false"
+        app:np_value="1"
+        app:layout_constraintEnd_toStartOf="@+id/timerCount"
+        app:layout_constraintTop_toTopOf="@+id/timerCount"
+        app:layout_constraintBottom_toBottomOf="@+id/timerCount"
+        />
+
+    <com.shawnlin.numberpicker.NumberPicker
+        android:id="@+id/secondsPicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:np_dividerColor="?attr/colorControlNormal"
+        app:np_max="99"
+        app:np_min="1"
+        app:np_selectedTextColor="?textAppearanceCaption"
+        app:np_textColor="?textAppearanceCaption"
+        app:np_textSize="20sp"
+        app:np_selectedTextSize="30sp"
+        app:np_dividerDistance="50dp"
+        app:np_orientation="vertical"
+        app:np_wrapSelectorWheel="false"
+        app:np_value="1"
+
+        app:layout_constraintStart_toEndOf="@+id/timerCount"
+        app:layout_constraintTop_toTopOf="@+id/timerCount"
+        app:layout_constraintBottom_toBottomOf="@+id/timerCount"
+        />
+
     <com.mikhaellopez.circularprogressbar.CircularProgressBar
         android:id="@+id/progress"
         android:layout_width="0dp"
@@ -497,6 +511,7 @@
         app:cpb_progressbar_color="#3f51b5"
         app:cpb_progressbar_width="20dp"
         app:cpb_round_border="true"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
