@@ -13,4 +13,7 @@
     <color name="material_red_300">#E57373</color>
     <color name="material_red_700">#D32F2F</color>
     <color name="material_white_300">#F9FBE7</color>
+    <color name="card_light">#F4F4F4</color>
+    <color name="card_night">#18181B</color>
+    <color name="yellow_700">#FBC02D</color>
 </resources>

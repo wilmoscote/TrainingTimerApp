@@ -13,12 +13,13 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <item name="textAppearanceCaption">@color/black</item>
+        <item name="cardBackgroundColor">#F4F4F4</item>
         <!-- Customize your theme here. -->
     </style>
 
     <style name="Theme.App.Starting" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">@color/material_300</item>
-        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
+        <item name="windowSplashScreenBackground">@color/material_700</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/splash_image</item>
         <item name="windowSplashScreenAnimationDuration">500</item>
         <item name="postSplashScreenTheme">@style/Theme.TrainingIntervalTimer</item>
     </style>
@@ -29,5 +30,14 @@
 
     <style name="RoundedTimePickerStyle">
         <item name="android:background">@drawable/dialog_rounded_background</item>
+    </style>
+
+    <style name="MaterialAlertDialog_rounded" parent="@style/ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="shapeAppearanceOverlay">@style/DialogCorners</item>
+    </style>
+
+    <style name="DialogCorners">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">15dp</item>
     </style>
 </resources>

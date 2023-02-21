@@ -6,11 +6,180 @@
     android:layout_height="match_parent"
     tools:context=".view.SettingActivity">
 
-    <com.google.android.material.switchmaterial.SwitchMaterial
-        android:id="@+id/switchTheme"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:layout_margin="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnBack"
+                style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="?selectableItemBackgroundBorderless"
+                app:icon="@drawable/arrow_back"
+                app:iconGravity="textStart"
+                app:iconPadding="0dp"
+                android:contentDescription="@string/back_button_description"
+                app:iconTint="?attr/colorControlNormal"
+                app:rippleColor="?attr/colorControlNormal" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/settings"
+                android:fontFamily="@font/poppinsbold"
+                android:textColor="?attr/textAppearanceCaption"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:contentDescription="@string/icon_dark_mode_description"
+                app:srcCompat="@drawable/ic_dark" />
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/switchTheme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="@string/dark_mode"
+                android:fontFamily="@font/poppinsmedium"
+                android:textColor="?attr/textAppearanceCaption"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:thumbTint="@color/material_700"
+                app:trackTint="?attr/textAppearanceCaption" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/switchLanguage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:contentDescription="@string/icon_language_description"
+                app:srcCompat="@drawable/ic_language" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:paddingVertical="10dp"
+                android:fontFamily="@font/poppinsmedium"
+                android:text="@string/language"
+                android:textColor="?attr/textAppearanceCaption"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtCurrentLanguage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:textColor="?attr/colorControlNormal"
+                android:textSize="16sp"
+                android:fontFamily="@font/poppinsregular"
+                android:textStyle="normal"
+                tools:text="Español" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:contentDescription="@string/icon_vibration_description"
+                app:srcCompat="@drawable/ic_vibration" />
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/switchVibrate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="@string/vibration"
+                android:fontFamily="@font/poppinsmedium"
+                android:textColor="?attr/textAppearanceCaption"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:thumbTint="@color/material_700"
+                app:trackTint="?attr/textAppearanceCaption" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/btnTerms"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:contentDescription="@string/icon_terms_description"
+                app:srcCompat="@drawable/ic_terms" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:paddingVertical="10dp"
+                android:fontFamily="@font/poppinsmedium"
+                android:text="@string/terms"
+                android:textColor="?attr/textAppearanceCaption"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/versionInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="v1.0.0 By FlexiFit"
+        android:textSize="14sp"
+        android:gravity="center_horizontal"
+        android:fontFamily="@font/poppinsregular"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>

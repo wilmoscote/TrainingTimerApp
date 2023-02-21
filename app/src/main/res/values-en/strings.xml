@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Training Interval Timer</string>
+    <string name="config_button_hint">Settings button</string>
+    <string name="break_info">Break</string>
+    <string name="go_go">Let\'s Go!</string>
+    <string name="round_duration">Round Duration:</string>
+    <string name="break_duration">Break Duration:</string>
+    <string name="interval">Number of Rounds:</string>
+    <string name="start">START</string>
+    <string name="pause">PAUSE</string>
+    <string name="stop">STOP</string>
+    <string name="resume">RESUME</string>
+    <string name="round">Round:</string>
+    <string name="minutes">Minutes</string>
+    <string name="seconds">Seconds</string>
+    <string name="total_duration">Total length:</string>
+    <string name="well_done">" Well done!"</string>
+    <string name="u_ready">Ready!</string>
+    <string name="settings">SETTINGS</string>
+    <string name="theme">Theme</string>
+    <string name="dark_mode">Dark Mode</string>
+    <string name="back">Back</string>
+    <string name="language">Language</string>
+    <string name="regional_title">Regional</string>
+    <string name="vibration">Vibration</string>
+    <string name="accept">Accept</string>
+    <string name="cancel">Cancel</string>
+    <string name="terms">Terms and Conditions</string>
+    <string name="back_button_description">Go back button</string>
+    <string name="icon_dark_mode_description">dark mode icon</string>
+    <string name="icon_language_description">language icon</string>
+    <string name="icon_vibration_description">Device vibration icon</string>
+    <string name="icon_terms_description">Terms and conditions icon</string>
+    <string name="pause_button_description">pause button</string>
+    <string name="play_button_description">play button</string>
+    <string name="stop_button_description">stop button</string>
+</resources>

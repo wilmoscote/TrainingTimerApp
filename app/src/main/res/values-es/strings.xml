@@ -1,4 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">Temporizador de Entrenamiento</string>
     <string name="config_button_hint">Botón de configuración</string>
     <string name="break_info">Descanso</string>
     <string name="go_go">¡Vamos!</string>
@@ -10,11 +12,9 @@
     <string name="stop">DETENER</string>
     <string name="resume">RESUMIR</string>
     <string name="round">Ronda:</string>
-    <string name="slash" translatable="false">/</string>
     <string name="minutes">Minutos</string>
     <string name="seconds">Segundos</string>
     <string name="total_duration">Duración Total:</string>
-    <string name="timer_count_placeholder" translatable="false">  :  </string>
     <string name="well_done">¡Bien hecho!</string>
     <string name="u_ready">¡Preparados!</string>
     <string name="settings">AJUSTES</string>
@@ -27,9 +27,6 @@
     <string name="accept">Aceptar</string>
     <string name="cancel">Cancelar</string>
     <string name="terms">Términos y Condiciones</string>
-    <string name="policies_flexifit" translatable="false">FLEXIFIT PRIVACY POLICY</string>
-
-    <!-- Descripciones para el Speakable de opciones Acesibilidad -->
     <string name="back_button_description">Botón volver atras</string>
     <string name="icon_dark_mode_description">Ícono de modo oscuro</string>
     <string name="icon_language_description">Ícono de idioma</string>
@@ -38,8 +35,4 @@
     <string name="pause_button_description">Botón de pausa</string>
     <string name="play_button_description">Botón de reproducir</string>
     <string name="stop_button_description">Botón de parar</string>
-    <string name="app_name">Temporizador de Entrenamiento</string>
-
-    <string name="privacy_policy" translatable="false">This privacy policy governs your use of the software application FlexiFit for Android mobile devices that was created by WMSoftware.\nWhat information we collect?\nFlexiFit application does not collect personal information like name, surname, age, date of birth, etc.\nWe use Google supplied APP performance tracking information to improve Application. This application only makes use of the sound your Android mobile phone to create the alarm.\nGoogle Analytics\nThis Application uses Google Analytics to help us analyze how you use app. It helps us to improve this product.\nThanks Google Analytics we know how long you use app, what kind of device you\'re using, where are you from and a little bit more. All this is used to improve the app.\nRead more about Google Analytics\nFirebase\nWe use Firebase to store all the app information. Information like personal data and manage the e-mail login to our app.\nYou can see the entire privacy policy of firebase here.\nhttps://firebase.google.com/support/privacy/?hl=es-419\nAdvertisement\nGoogle Admob privacy policy is here: https://support.google.com/admob/answer/6128543?hl=en.\nThird party vendors, including Google, use cookies to serve ads based on a user\'s prior visits to your website.\nContact\nTo contact us please use email: wilfredmoscote@gmail.com\n\n-Acknowledgements\nWe use these libraries to make FlexiFit:\n- Lottie\n- Google Fonts\n- Google Icons</string>
-
 </resources>

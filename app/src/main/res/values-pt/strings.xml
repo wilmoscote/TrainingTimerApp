@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">" Temporizador de Treinamento"</string>
+    <string name="config_button_hint">Botão de configurações</string>
+    <string name="break_info">Descanso</string>
+    <string name="go_go">Vamos!</string>
+    <string name="round_duration">Duração da Rodada:</string>
+    <string name="break_duration">Duração do Descanso:</string>
+    <string name="interval">Número de rodadas:</string>
+    <string name="start">COMEÇAR</string>
+    <string name="pause">PAUSA</string>
+    <string name="stop">PARAR</string>
+    <string name="resume">RETOMAR</string>
+    <string name="round">Rodada:</string>
+    <string name="minutes">Minutos</string>
+    <string name="seconds">Segundos</string>
+    <string name="total_duration">Tempo Total:</string>
+    <string name="well_done">Bem feito!</string>
+    <string name="u_ready">Se prepara!</string>
+    <string name="settings">AJUSTES</string>
+    <string name="theme">Tema</string>
+    <string name="dark_mode">Modo Escuro</string>
+    <string name="back">Voltar</string>
+    <string name="language">Idioma</string>
+    <string name="regional_title">Regional</string>
+    <string name="vibration">Vibração</string>
+    <string name="accept">Aceitar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="terms">Termos e Condições</string>
+    <string name="back_button_description">botão voltar</string>
+    <string name="icon_dark_mode_description">ícone do modo escuro</string>
+    <string name="icon_language_description">" ícone de idioma"</string>
+    <string name="icon_vibration_description">Ícone de vibração do dispositivo</string>
+    <string name="icon_terms_description">ícone de termos e condições</string>
+    <string name="pause_button_description">ícone de termos e condições</string>
+    <string name="play_button_description">botão play</string>
+    <string name="stop_button_description">" botão de parada"</string>
+</resources>

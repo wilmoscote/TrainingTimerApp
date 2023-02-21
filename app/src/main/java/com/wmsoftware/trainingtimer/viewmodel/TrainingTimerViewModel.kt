@@ -2,6 +2,9 @@ package com.wmsoftware.trainingtimer.viewmodel
 
 import android.content.Context
 import android.media.MediaPlayer
+import android.os.Build
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -15,6 +18,10 @@ class TrainingTimerViewModel : ViewModel(), CoroutineScope {
     var isPaused = false
     private var remainingTime = 0
     private var restTime = 0
+    private var roundMinuteTime = 0
+    private var roundsSecondTime = 0
+    private var breakMinuteTime = 0
+    private var breakSecondTime = 0
     var totalRoundTime = MutableLiveData<Int>()
     var breakTime = MutableLiveData<Int>()
     var rounds = MutableLiveData<Int>()
@@ -25,49 +32,72 @@ class TrainingTimerViewModel : ViewModel(), CoroutineScope {
     var goRunning = MutableLiveData<Boolean>()
     var progress = MutableLiveData<Float>()
     var progressMax = MutableLiveData<Float>()
+    var trainingStep = MutableLiveData<Int>()
     val TAG = "TimerDebug"
     private var totalTimeElapsed = 0
     private var restTimeElapsed = 0
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.IO + job
 
-    suspend fun init(){
+    companion object {
+        private var instance: TrainingTimerViewModel? = null
+
+        fun getInstance(): TrainingTimerViewModel {
+            if (instance == null) {
+                instance = TrainingTimerViewModel()
+            }
+            return instance!!
+        }
+    }
+
+    suspend fun init(context:Context){
         withContext(Dispatchers.IO){
             isRunning.postValue(false)
-            totalRoundTime.postValue(5)
-            breakTime.postValue(5)
-            totalTime.postValue(5)
+            totalRoundTime.postValue(10)
+            breakTime.postValue(10)
+            totalTime.postValue(10)
             round.postValue(1)
             rounds.postValue(1)
-            progressMax.postValue(5f)
+            progressMax.postValue(10f)
             progress.postValue(0f)
         }
     }
 
     private fun startTimer(context:Context) {
         isRunning.postValue(true)
+
          launch {
             while ((round.value ?: 1) <= (rounds.value ?: 1)) {
                 if (remainingTime > 0) goRunning.postValue(true)
+                trainingStep.postValue(2)
                 MediaPlayer.create(context, R.raw.sound_end).start()
                 for (i in 1..remainingTime) {
                     if (!isPaused) {
                         remainingTime--
                         totalTimeElapsed++
                         progress.postValue(totalTimeElapsed.toFloat())
-                        timerCountDownText.postValue(formatTime(((totalTime.value ?: 10) - totalTimeElapsed)))
+                        timerCountDownText.postValue(formatTime(remainingTime))
+                        //timerCountDownText.postValue(formatTime(((totalTime.value ?: 10) - totalTimeElapsed)))
+                    }
+                    if(remainingTime == 3){
+                        MediaPlayer.create(context, R.raw.sound_countdown).start()
                     }
                     delay(1000)
                 }
                 if ((round.value ?: 1) < (rounds.value ?: 1)) {
                     goRunning.postValue(false)
+                    trainingStep.postValue(1)
                     MediaPlayer.create(context, R.raw.sound_start).start()
                     for (i in 1..restTime) {
                         if (!isPaused) {
                             restTime--
                             restTimeElapsed++
                             progress.postValue((totalTimeElapsed + restTimeElapsed).toFloat())
-                            timerCountDownText.postValue(formatTime(((totalTime.value ?: 10) - (totalTimeElapsed + restTimeElapsed))))
+                            timerCountDownText.postValue(formatTime(restTime))
+                            //timerCountDownText.postValue(formatTime(((totalTime.value ?: 10) - (totalTimeElapsed + restTimeElapsed))))
+                        }
+                        if(restTime == 3){
+                            MediaPlayer.create(context, R.raw.sound_countdown).start()
                         }
                         delay(1000)
                     }
@@ -78,13 +108,12 @@ class TrainingTimerViewModel : ViewModel(), CoroutineScope {
                     totalTimeElapsed += restTimeElapsed
                     restTimeElapsed = 0
                 } else {
+                    trainingStep.postValue(3)
                     stopTimer(context)
                 }
             }
         }
     }
-
-
 
     fun calculateTotalTime() {
         try {
@@ -96,59 +125,55 @@ class TrainingTimerViewModel : ViewModel(), CoroutineScope {
         }
     }
 
-    suspend fun plusTotalRoundTime(){
+    suspend fun setTotalRoundMinuteTime(value: Int){
         withContext(Dispatchers.IO){
-            if((((totalRoundTime.value ?: 10) <= 999))){
-                totalRoundTime.postValue((totalRoundTime.value ?: 10) + 5)
-            }
+            roundMinuteTime = value
+            setTotalRoundTime()
         }
     }
 
-    suspend fun lessTotalRoundTime(){
-        withContext(Dispatchers.IO) {
-            if ((((totalRoundTime.value ?: 10) > 10))) {
-                totalRoundTime.postValue((totalRoundTime.value ?: 10) - 5)
-            }
+    suspend fun setTotalRoundSecondsTime(value: Int){
+        withContext(Dispatchers.IO){
+            roundsSecondTime = value
+            setTotalRoundTime()
         }
     }
 
-    suspend fun plusBreakTime(){
+    private suspend fun setTotalRoundTime(){
         withContext(Dispatchers.IO) {
-            if ((((breakTime.value ?: 10) <= 999))) {
-                breakTime.postValue((breakTime.value ?: 10) + 5)
-            }
+            totalRoundTime.postValue((roundMinuteTime*60) + roundsSecondTime)
         }
     }
 
-    suspend fun lessBreakTime(){
+    suspend fun setTotalBreakMinuteTime(value: Int){
         withContext(Dispatchers.IO) {
-            if ((((breakTime.value ?: 10) > 10))) {
-                breakTime.postValue((breakTime.value ?: 10) - 5)
-            }
+            breakMinuteTime = value
+            setTotalBreakTime()
         }
     }
 
-    suspend fun plusInterval(){
+    suspend fun setTotalBreakSecondsTime(value: Int){
         withContext(Dispatchers.IO) {
-            if ((rounds.value ?: 1) < 999) {
-                rounds.postValue((rounds.value ?: 1) + 1)
-            }
+            breakSecondTime = value
+            setTotalBreakTime()
         }
     }
 
-    suspend fun lessInterval(){
+    private suspend fun setTotalBreakTime(){
         withContext(Dispatchers.IO) {
-            if (((rounds.value ?: 1) > 1)) {
-                rounds.postValue((rounds.value ?: 1) - 1)
-            }
+            breakTime.postValue((breakMinuteTime*60) + breakSecondTime)
         }
     }
+
 
     fun prepareTimer(context: Context){
-        remainingTime = ((totalRoundTime.value ?: 10) - currentTime)
-        restTime = (breakTime.value ?: 10)
-        totalTimeElapsed = 0
-        startTimer(context)
+        launch {
+            remainingTime = ((totalRoundTime.value ?: 10) - currentTime)
+            restTime = (breakTime.value ?: 10)
+            totalTimeElapsed = 0
+            progress.postValue(0f)
+            preparingTime(context)
+        }
     }
 
     fun pauseTimer() {
@@ -163,34 +188,22 @@ class TrainingTimerViewModel : ViewModel(), CoroutineScope {
     }
 
     suspend fun stopTimer(context:Context) {
-        withContext(Dispatchers.IO){
+        withContext(Dispatchers.IO) {
             job.cancel()
             remainingTime = totalRoundTime.value ?: 10
             restTime = breakTime.value ?: 10
             round.postValue(1)
             currentTime = 0
             totalTimeElapsed = 0
-            MediaPlayer.create(context, R.raw.sound_end).start()
+
             isPaused = false
             isRunning.postValue(false)
         }
     }
 
-    suspend fun manualRoundTime(time:Int){
+    suspend fun setRounds(value: Int){
         withContext(Dispatchers.IO){
-            totalRoundTime.postValue(time)
-        }
-    }
-
-    suspend fun manualBreakTime(time:Int){
-        withContext(Dispatchers.IO){
-            breakTime.postValue(time)
-        }
-    }
-
-    suspend fun manualRounds(time:Int){
-        withContext(Dispatchers.IO){
-            rounds.postValue(time)
+            rounds.postValue(value)
         }
     }
 
@@ -198,5 +211,19 @@ class TrainingTimerViewModel : ViewModel(), CoroutineScope {
         val minutes = seconds / 60
         val remainingSeconds = seconds % 60
         return String.format("%02d:%02d", minutes, remainingSeconds)
+    }
+
+    private suspend fun preparingTime(context: Context){
+        trainingStep.postValue(1)
+        withContext(Dispatchers.IO){
+            for (i in 1..5) {
+                timerCountDownText.postValue(formatTime(5-i))
+                if(i == 2){
+                    MediaPlayer.create(context, R.raw.sound_countdown).start()
+                }
+                delay(1000)
+            }
+            startTimer(context)
+        }
     }
 }
