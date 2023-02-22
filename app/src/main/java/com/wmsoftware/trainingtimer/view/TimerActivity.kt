@@ -15,6 +15,10 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelStore
 import androidx.lifecycle.lifecycleScope
+import com.google.android.gms.ads.AdListener
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.MobileAds
 import com.mikhaellopez.circularprogressbar.CircularProgressBar
 import com.wmsoftware.trainingtimer.R
 import com.wmsoftware.trainingtimer.databinding.ActivityTimerBinding
@@ -39,6 +43,7 @@ class TimerActivity : AppCompatActivity() {
         val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
         val userPreferences = UserPreferences(this)
         lifecycleScope.launch {
+            initAds()
             userPreferences.getUserVibration().collect(){ vibration ->
                 runOnUiThread {
                     vibrate = vibration ?: true
@@ -211,6 +216,46 @@ class TimerActivity : AppCompatActivity() {
             withContext(Dispatchers.Main){
                 viewModel.trainingStep.value = 0
                 viewModelStore.clear()
+            }
+        }
+    }
+
+    private fun initAds() {
+        MobileAds.initialize(this) {}
+
+        val adRequest = AdRequest.Builder().build()
+        runOnUiThread {
+            binding.adView.loadAd(adRequest)
+
+            binding.adView.adListener = object : AdListener() {
+                override fun onAdClicked() {
+
+                    // Code to be executed when the user clicks on an ad.
+                }
+
+                override fun onAdClosed() {
+                    // Code to be executed when the user is about to return
+                    // to the app after tapping on an ad.
+                }
+
+                override fun onAdFailedToLoad(adError: LoadAdError) {
+                    // Code to be executed when an ad request fails.
+                }
+
+                override fun onAdImpression() {
+                    // Code to be executed when an impression is recorded
+                    // for an ad.
+                }
+
+                override fun onAdLoaded() {
+                    //binding.adView.isVisible = true
+                    // Code to be executed when an ad finishes loading.
+                }
+
+                override fun onAdOpened() {
+                    // Code to be executed when an ad opens an overlay that
+                    // covers the screen.
+                }
             }
         }
     }

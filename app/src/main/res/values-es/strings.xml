@@ -26,6 +26,7 @@
     <string name="vibration">Vibración</string>
     <string name="accept">Aceptar</string>
     <string name="cancel">Cancelar</string>
+    <string name="but_update">Actualizar</string>
     <string name="terms">Términos y Condiciones</string>
     <string name="back_button_description">Botón volver atras</string>
     <string name="icon_dark_mode_description">Ícono de modo oscuro</string>
@@ -35,4 +36,5 @@
     <string name="pause_button_description">Botón de pausa</string>
     <string name="play_button_description">Botón de reproducir</string>
     <string name="stop_button_description">Botón de parar</string>
+    <string name="update_string"><b>Hay una nueva versión disponible.</b>\nLe invitamos a actualizar la aplicación.</string>
 </resources>

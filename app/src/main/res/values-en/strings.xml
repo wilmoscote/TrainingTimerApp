@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Training Interval Timer</string>
+    <string name="app_name">Training Timer</string>
     <string name="config_button_hint">Settings button</string>
     <string name="break_info">Break</string>
     <string name="go_go">Let\'s Go!</string>
@@ -26,6 +26,7 @@
     <string name="vibration">Vibration</string>
     <string name="accept">Accept</string>
     <string name="cancel">Cancel</string>
+    <string name="but_update">Update</string>
     <string name="terms">Terms and Conditions</string>
     <string name="back_button_description">Go back button</string>
     <string name="icon_dark_mode_description">dark mode icon</string>
@@ -35,4 +36,5 @@
     <string name="pause_button_description">pause button</string>
     <string name="play_button_description">play button</string>
     <string name="stop_button_description">stop button</string>
+    <string name="update_string"><b>A new version is available.</b>\nWe invite you to update the application.</string>
 </resources>

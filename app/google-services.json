@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "843732457435",
+    "project_id": "training-timer-83ad1",
+    "storage_bucket": "training-timer-83ad1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:843732457435:android:00b2fffb6d65bcf07c39fe",
+        "android_client_info": {
+          "package_name": "com.wmsoftware.trainingtimer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "843732457435-nlk3bp8fi2rfkadj0dr1rl74rd77oiok.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.wmsoftware.trainingtimer",
+            "certificate_hash": "b34d3e9a91aa10d8eec165542e0a4f60cdae75a5"
+          }
+        },
+        {
+          "client_id": "843732457435-ppnj5reh2k4n4aqsn29t8q89bqu94ol9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAxhKTFo9nst2dKy54yXyA-XZdkozPp428"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "843732457435-ppnj5reh2k4n4aqsn29t8q89bqu94ol9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
