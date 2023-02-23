@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">" Temporizador de Treinamento"</string>
     <string name="config_button_hint">Botão de configurações</string>
     <string name="break_info">Descanso</string>
     <string name="go_go">Vamos!</string>
@@ -37,4 +36,5 @@
     <string name="play_button_description">botão play</string>
     <string name="stop_button_description">" botão de parada"</string>
     <string name="update_string"><b>Uma nova versão está disponível.</b>\nConvidamos você a atualizar o aplicativo.</string>
+    <string name="press_twice_text">Pressione Voltar novamente para sair.</string>
 </resources>

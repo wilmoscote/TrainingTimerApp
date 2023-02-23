@@ -7,340 +7,343 @@
     android:orientation="vertical"
     tools:context=".view.MainActivity">
 
-    <FrameLayout
-        android:id="@+id/layoutRoundDuration"
+    <ScrollView
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginHorizontal="10dp"
-        android:paddingVertical="10dp"
-        app:layout_constraintTop_toTopOf="@+id/timerInfoTitle"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="64dp"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="@+id/minutePicker"
-        android:background="@drawable/card"
-        />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <FrameLayout
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginHorizontal="10dp"
-        android:paddingVertical="5dp"
-        app:layout_constraintTop_toTopOf="@+id/timerInfoTitle2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="@+id/minutePicker2"
-        android:background="@drawable/card"
-        />
-
-    <FrameLayout
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginHorizontal="10dp"
-        android:paddingVertical="5dp"
-        app:layout_constraintTop_toTopOf="@+id/intervalInfoTitle"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="@+id/roundsNumberPicker"
-        android:background="@drawable/card"
-        />
-
-    <FrameLayout
-        android:id="@+id/layoutTotalTime"
-        android:layout_width="200dp"
-        android:layout_height="100dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:background="@drawable/round_background">
-        <TextView
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fontFamily="@font/poppinsregular"
-            android:textColor="?textAppearanceCaption"
-            android:text="@string/total_duration"
-            android:gravity="center_horizontal"
-            android:textSize="12sp" />
-        <TextView
-            android:id="@+id/totalTimeText"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fontFamily="@font/poppinsbold"
-            android:gravity="center_horizontal|center_vertical"
-            android:text="@string/timer_count_placeholder"
-            android:textSize="50sp"
-            android:layout_marginTop="10dp"
-            android:textColor="?textAppearanceCaption"
-            />
-    </FrameLayout>
+            android:layout_height="wrap_content"
+            android:paddingBottom="64dp"
+            >
+            <FrameLayout
+                android:id="@+id/layoutRoundDuration"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginHorizontal="10dp"
+                android:background="@drawable/card"
+                android:paddingVertical="10dp"
+                app:layout_constraintBottom_toBottomOf="@+id/minutePicker"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/timerInfoTitle" />
 
-    <!-- SELECTOR DE TIEMPO DE LA RONDA -->
-    <TextView
-        android:id="@+id/timerInfoTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/poppinsmedium"
-        android:textColor="?textAppearanceCaption"
-        android:text="@string/round_duration"
-        android:textSize="16sp"
-        android:layout_marginTop="110dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-       app:layout_constraintTop_toTopOf="parent" />
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginHorizontal="10dp"
+                android:background="@drawable/card"
+                android:paddingVertical="5dp"
+                app:layout_constraintBottom_toBottomOf="@+id/minutePicker2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/timerInfoTitle2" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/poppinsmedium"
-        android:textSize="14sp"
-        android:text="@string/minutes"
-        app:layout_constraintEnd_toStartOf="@id/minutePicker"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/minutePicker"
-        app:layout_constraintTop_toTopOf="@id/minutePicker"
-    />
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginHorizontal="10dp"
+                android:background="@drawable/card"
+                android:paddingVertical="5dp"
 
-    <com.shawnlin.numberpicker.NumberPicker
-        android:id="@+id/minutePicker"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:np_dividerColor="?attr/colorControlNormal"
-        app:np_max="99"
-        app:np_min="0"
-        app:np_selectedTextColor="?textAppearanceCaption"
-        app:np_textColor="?textAppearanceCaption"
-        app:np_textSize="20sp"
-        app:np_selectedTextSize="30sp"
-        app:np_dividerDistance="50dp"
-        app:np_orientation="vertical"
-        app:np_wrapSelectorWheel="false"
-        app:np_value="0"
-        android:layout_marginHorizontal="10dp"
-        app:layout_constraintEnd_toStartOf="@id/timerCount"
-        app:layout_constraintTop_toBottomOf="@id/timerInfoTitle"
-        />
+                app:layout_constraintBottom_toBottomOf="@+id/roundsNumberPicker"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/intervalInfoTitle" />
 
-    <TextView
-        android:id="@+id/timerCount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/poppinsbold"
-        android:gravity="center_horizontal|center_vertical"
-        android:text="@string/timer_count_placeholder"
-        android:textSize="64sp"
-        android:textColor="?textAppearanceCaption"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/timerInfoTitle"
-        app:layout_constraintBottom_toBottomOf="@id/minutePicker"
-        />
+            <FrameLayout
+                android:id="@+id/layoutTotalTime"
+                android:layout_width="200dp"
+                android:layout_height="100dp"
+                android:background="@drawable/round_background"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/poppinsmedium"
-        android:textSize="14sp"
-        android:text="@string/seconds"
-        app:layout_constraintStart_toEndOf="@id/secondsPicker"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/secondsPicker"
-        app:layout_constraintTop_toTopOf="@id/secondsPicker"
-        />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/poppinsregular"
+                    android:gravity="center_horizontal"
+                    android:text="@string/total_duration"
+                    android:textColor="?textAppearanceCaption"
+                    android:textSize="12sp" />
 
-    <com.shawnlin.numberpicker.NumberPicker
-        android:id="@+id/secondsPicker"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:np_dividerColor="?attr/colorControlNormal"
-        app:np_max="60"
-        app:np_min="0"
-        app:np_selectedTextColor="?textAppearanceCaption"
-        app:np_textColor="?textAppearanceCaption"
-        app:np_textSize="20sp"
-        android:layout_marginHorizontal="10dp"
-        app:np_selectedTextSize="30sp"
-        app:np_dividerDistance="50dp"
-        app:np_orientation="vertical"
-        app:np_wrapSelectorWheel="false"
-        app:np_value="10"
-        app:layout_constraintStart_toEndOf="@+id/timerCount"
-        app:layout_constraintTop_toBottomOf="@id/timerInfoTitle"
-        />
-    <!-- SELECTOR DE TIEMPO DE DESCANSO -->
-    <TextView
-        android:id="@+id/timerInfoTitle2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/poppinsmedium"
-        android:textColor="?textAppearanceCaption"
-        android:text="@string/break_duration"
-        android:textSize="16sp"
-        android:layout_marginTop="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/minutePicker" />
+                <TextView
+                    android:id="@+id/totalTimeText"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/poppinsbold"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:text="@string/timer_count_placeholder"
+                    android:textColor="?textAppearanceCaption"
+                    android:textSize="50sp" />
+            </FrameLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/poppinsmedium"
-        android:textSize="14sp"
-        android:text="@string/minutes"
-        app:layout_constraintEnd_toStartOf="@id/minutePicker2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/minutePicker2"
-        app:layout_constraintTop_toTopOf="@id/minutePicker2"
-        />
+            <!-- SELECTOR DE TIEMPO DE LA RONDA -->
+            <TextView
+                android:id="@+id/timerInfoTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="110dp"
+                android:fontFamily="@font/poppinsmedium"
+                android:text="@string/round_duration"
+                android:textColor="?textAppearanceCaption"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    <com.shawnlin.numberpicker.NumberPicker
-        android:id="@+id/minutePicker2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:np_dividerColor="?attr/colorControlNormal"
-        app:np_max="99"
-        app:np_min="0"
-        app:np_selectedTextColor="?textAppearanceCaption"
-        app:np_textColor="?textAppearanceCaption"
-        app:np_textSize="20sp"
-        app:np_selectedTextSize="30sp"
-        app:np_dividerDistance="50dp"
-        app:np_orientation="vertical"
-        app:np_wrapSelectorWheel="false"
-        app:np_value="0"
-        android:layout_marginHorizontal="10dp"
-        app:layout_constraintEnd_toStartOf="@id/timerCount"
-        app:layout_constraintTop_toBottomOf="@id/timerInfoTitle2"
-        />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppinsmedium"
+                android:text="@string/minutes"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@id/minutePicker"
+                app:layout_constraintEnd_toStartOf="@id/minutePicker"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/minutePicker" />
 
-    <TextView
-        android:id="@+id/timerCount2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/poppinsbold"
-        android:gravity="center_horizontal|center_vertical"
-        android:text="@string/timer_count_placeholder"
-        android:textSize="64sp"
-        android:textColor="?textAppearanceCaption"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/timerInfoTitle2"
-        app:layout_constraintBottom_toBottomOf="@id/minutePicker2"
-        />
+            <com.shawnlin.numberpicker.NumberPicker
+                android:id="@+id/minutePicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                app:layout_constraintEnd_toStartOf="@id/timerCount"
+                app:layout_constraintTop_toBottomOf="@id/timerInfoTitle"
+                app:np_dividerColor="?attr/colorControlNormal"
+                app:np_dividerDistance="50dp"
+                app:np_max="99"
+                app:np_min="0"
+                app:np_orientation="vertical"
+                app:np_selectedTextColor="?textAppearanceCaption"
+                app:np_selectedTextSize="30sp"
+                app:np_textColor="?textAppearanceCaption"
+                app:np_textSize="20sp"
+                app:np_value="0"
+                app:np_wrapSelectorWheel="false" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/poppinsmedium"
-        android:textSize="14sp"
-        android:text="@string/seconds"
-        app:layout_constraintStart_toEndOf="@id/secondsPicker2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/secondsPicker2"
-        app:layout_constraintTop_toTopOf="@id/secondsPicker2"
-        />
+            <TextView
+                android:id="@+id/timerCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppinsbold"
+                android:gravity="center_horizontal|center_vertical"
+                android:text="@string/timer_count_placeholder"
+                android:textColor="?textAppearanceCaption"
+                android:textSize="64sp"
+                app:layout_constraintBottom_toBottomOf="@id/minutePicker"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/timerInfoTitle" />
 
-    <com.shawnlin.numberpicker.NumberPicker
-        android:id="@+id/secondsPicker2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:np_dividerColor="?attr/colorControlNormal"
-        app:np_max="60"
-        app:np_min="0"
-        app:np_selectedTextColor="?textAppearanceCaption"
-        app:np_textColor="?textAppearanceCaption"
-        app:np_textSize="20sp"
-        android:layout_marginHorizontal="10dp"
-        app:np_selectedTextSize="30sp"
-        app:np_dividerDistance="50dp"
-        app:np_orientation="vertical"
-        app:np_wrapSelectorWheel="false"
-        app:np_value="10"
-        app:layout_constraintStart_toEndOf="@+id/timerCount"
-        app:layout_constraintTop_toBottomOf="@id/timerInfoTitle2"
-        />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppinsmedium"
+                android:text="@string/seconds"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@id/secondsPicker"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/secondsPicker"
+                app:layout_constraintTop_toTopOf="@id/secondsPicker" />
 
-    <TextView
-        android:id="@+id/intervalInfoTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/poppinsmedium"
-        android:textColor="?textAppearanceCaption"
-        android:text="@string/interval"
-        android:textSize="16sp"
-        android:layout_marginTop="10dp"
-        app:layout_constraintTop_toBottomOf="@+id/minutePicker2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        />
+            <com.shawnlin.numberpicker.NumberPicker
+                android:id="@+id/secondsPicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                app:layout_constraintStart_toEndOf="@+id/timerCount"
+                app:layout_constraintTop_toBottomOf="@id/timerInfoTitle"
+                app:np_dividerColor="?attr/colorControlNormal"
+                app:np_dividerDistance="50dp"
+                app:np_max="59"
+                app:np_min="0"
+                app:np_orientation="vertical"
+                app:np_selectedTextColor="?textAppearanceCaption"
+                app:np_selectedTextSize="30sp"
+                app:np_textColor="?textAppearanceCaption"
+                app:np_textSize="20sp"
+                app:np_value="10"
+                app:np_wrapSelectorWheel="false" />
+            <!-- SELECTOR DE TIEMPO DE DESCANSO -->
+            <TextView
+                android:id="@+id/timerInfoTitle2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/poppinsmedium"
+                android:text="@string/break_duration"
+                android:textColor="?textAppearanceCaption"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/minutePicker" />
 
-    <com.shawnlin.numberpicker.NumberPicker
-        android:id="@+id/roundsNumberPicker"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:np_dividerColor="?attr/colorControlNormal"
-        app:np_max="99"
-        app:np_min="1"
-        app:np_selectedTextColor="?textAppearanceCaption"
-        app:np_textColor="?textAppearanceCaption"
-        app:np_textSize="20sp"
-        app:np_selectedTextSize="30sp"
-        app:np_dividerDistance="50dp"
-        app:np_orientation="horizontal"
-        app:np_wrapSelectorWheel="false"
-        app:np_value="1"
-        android:layout_marginHorizontal="10dp"
-        app:layout_constraintTop_toBottomOf="@+id/intervalInfoTitle"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppinsmedium"
+                android:text="@string/minutes"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@id/minutePicker2"
+                app:layout_constraintEnd_toStartOf="@id/minutePicker2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/minutePicker2" />
+
+            <com.shawnlin.numberpicker.NumberPicker
+                android:id="@+id/minutePicker2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                app:layout_constraintEnd_toStartOf="@id/timerCount"
+                app:layout_constraintTop_toBottomOf="@id/timerInfoTitle2"
+                app:np_dividerColor="?attr/colorControlNormal"
+                app:np_dividerDistance="50dp"
+                app:np_max="99"
+                app:np_min="0"
+                app:np_orientation="vertical"
+                app:np_selectedTextColor="?textAppearanceCaption"
+                app:np_selectedTextSize="30sp"
+                app:np_textColor="?textAppearanceCaption"
+                app:np_textSize="20sp"
+                app:np_value="0"
+                app:np_wrapSelectorWheel="false" />
+
+            <TextView
+                android:id="@+id/timerCount2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppinsbold"
+                android:gravity="center_horizontal|center_vertical"
+                android:text="@string/timer_count_placeholder"
+                android:textColor="?textAppearanceCaption"
+                android:textSize="64sp"
+                app:layout_constraintBottom_toBottomOf="@id/minutePicker2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/timerInfoTitle2" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppinsmedium"
+                android:text="@string/seconds"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@id/secondsPicker2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/secondsPicker2"
+                app:layout_constraintTop_toTopOf="@id/secondsPicker2" />
+
+            <com.shawnlin.numberpicker.NumberPicker
+                android:id="@+id/secondsPicker2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                app:layout_constraintStart_toEndOf="@+id/timerCount"
+                app:layout_constraintTop_toBottomOf="@id/timerInfoTitle2"
+                app:np_dividerColor="?attr/colorControlNormal"
+                app:np_dividerDistance="50dp"
+                app:np_max="59"
+                app:np_min="0"
+                app:np_orientation="vertical"
+                app:np_selectedTextColor="?textAppearanceCaption"
+                app:np_selectedTextSize="30sp"
+                app:np_textColor="?textAppearanceCaption"
+                app:np_textSize="20sp"
+                app:np_value="10"
+                app:np_wrapSelectorWheel="false" />
+
+            <TextView
+                android:id="@+id/intervalInfoTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/poppinsmedium"
+                android:text="@string/interval"
+                android:textColor="?textAppearanceCaption"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/minutePicker2" />
+
+            <com.shawnlin.numberpicker.NumberPicker
+                android:id="@+id/roundsNumberPicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/intervalInfoTitle"
+                app:np_dividerColor="?attr/colorControlNormal"
+                app:np_dividerDistance="50dp"
+                app:np_max="99"
+                app:np_min="1"
+                app:np_orientation="horizontal"
+                app:np_selectedTextColor="?textAppearanceCaption"
+                app:np_selectedTextSize="30sp"
+                app:np_textColor="?textAppearanceCaption"
+                app:np_textSize="20sp"
+                app:np_value="1"
+                app:np_wrapSelectorWheel="false" />
+
+
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:background="?selectableItemBackgroundBorderless"
+                android:contentDescription="@string/config_button_hint"
+                android:src="@drawable/logo"
+                app:layout_constraintBottom_toTopOf="@+id/layoutRoundDuration"
+                app:layout_constraintEnd_toStartOf="@+id/btnSettings"
+                app:layout_constraintStart_toEndOf="@+id/layoutTotalTime"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/btnSettings"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_margin="10dp"
+                android:background="?selectableItemBackgroundBorderless"
+                android:contentDescription="@string/config_button_hint"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_settings_outlined"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
     <Button
         android:id="@+id/timerStartButton"
         android:layout_width="64dp"
         android:layout_height="64dp"
-        android:background="@drawable/boton_reproducir"
-        android:foreground="@drawable/ic_play"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/adView"
         android:layout_margin="5dp"
+        android:background="@drawable/boton_reproducir"
         android:contentDescription="@string/play_button_description"
-        />
-
-    <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:background="?selectableItemBackgroundBorderless"
-        android:src="@drawable/logo"
-        android:contentDescription="@string/config_button_hint"
-        app:layout_constraintStart_toEndOf="@+id/layoutTotalTime"
-        app:layout_constraintEnd_toStartOf="@+id/btnSettings"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/layoutRoundDuration"
-        />
-
-    <ImageView
-        android:id="@+id/btnSettings"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:layout_margin="10dp"
-        android:background="?selectableItemBackgroundBorderless"
-        android:src="@drawable/ic_settings_outlined"
-        android:contentDescription="@string/config_button_hint"
-        android:scaleType="centerInside"
+        android:foreground="@drawable/ic_play"
+        app:layout_constraintBottom_toTopOf="@+id/adView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-    <com.google.android.gms.ads.AdView
-        xmlns:ads="http://schemas.android.com/apk/res-auto"
+        app:layout_constraintStart_toStartOf="parent" />
+    <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
         android:id="@+id/adView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone"
         ads:adSize="BANNER"
         ads:adUnitId="ca-app-pub-3940256099942544/6300978111"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:visibility="gone"
-        >
+        app:layout_constraintStart_toStartOf="parent">
         <!-- ID REAL: ads:adUnitId="ca-app-pub-1892256007304751/5302629651" -->
         <!-- ca-app-pub-3940256099942544/6300978111 -->
     </com.google.android.gms.ads.AdView>

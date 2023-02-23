@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Temporizador de Entrenamiento</string>
     <string name="config_button_hint">Botón de configuración</string>
     <string name="break_info">Descanso</string>
     <string name="go_go">¡Vamos!</string>
@@ -37,4 +36,5 @@
     <string name="play_button_description">Botón de reproducir</string>
     <string name="stop_button_description">Botón de parar</string>
     <string name="update_string"><b>Hay una nueva versión disponible.</b>\nLe invitamos a actualizar la aplicación.</string>
+    <string name="press_twice_text">Presione Atrás nuevamente para salir.</string>
 </resources>

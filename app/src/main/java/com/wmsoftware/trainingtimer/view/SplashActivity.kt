@@ -23,6 +23,7 @@ import java.util.*
 class SplashActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySplashBinding
     private lateinit var userPreferences: UserPreferences
+    private val languageCodes = arrayOf("nn", "en", "es", "pt")
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { isGranted: Boolean ->
@@ -59,14 +60,21 @@ class SplashActivity : AppCompatActivity() {
             }
         }
 
+        lifecycleScope.launch(Dispatchers.IO) {
+            userPreferences.getUserLanguage().collect { language ->
+                runOnUiThread {
+                    if(language != null){
+                        setLocale(languageCodes[language])
+                    }
+                }
+            }
+        }
+
 
 
         startActivity(Intent(this,MainActivity::class.java))
         finish()
     }
-
-    // Declare the launcher at the top of your Activity/Fragment:
-
 
     private fun askNotificationPermission() {
         // This is only necessary for API level >= 33 (TIRAMISU)
@@ -81,6 +89,23 @@ class SplashActivity : AppCompatActivity() {
                 // Directly ask for the permission
                 requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
             }
+        }
+    }
+
+    private fun setLocale(language: String) {
+        if(language != "nn"){
+            val resources = resources
+            val metrics = resources.displayMetrics
+            val configuration = resources.configuration
+            configuration.locale = Locale(language)
+            resources.updateConfiguration(configuration, metrics)
+            onConfigurationChanged(configuration)
+        } else {
+            val locale = Locale.getDefault()
+            Locale.setDefault(locale)
+            val config = resources.configuration
+            config.setLocale(locale)
+            resources.updateConfiguration(config, resources.displayMetrics)
         }
     }
 }

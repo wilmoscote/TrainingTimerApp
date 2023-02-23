@@ -2,13 +2,14 @@ package com.wmsoftware.trainingtimer.view
 
 import android.content.Context
 import android.graphics.Color
+import android.graphics.Point
 import android.media.MediaPlayer
-import android.os.Build
+import android.os.*
+import android.util.DisplayMetrics
 import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-import android.os.VibrationEffect
-import android.os.Vibrator
 import android.util.Log
+import android.view.*
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
@@ -19,6 +20,7 @@ import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.MobileAds
+import com.google.android.material.snackbar.Snackbar
 import com.mikhaellopez.circularprogressbar.CircularProgressBar
 import com.wmsoftware.trainingtimer.R
 import com.wmsoftware.trainingtimer.databinding.ActivityTimerBinding
@@ -35,6 +37,7 @@ class TimerActivity : AppCompatActivity() {
         TrainingTimerViewModel.getInstance()
     }
     val TAG = "TimerDebug"
+    var doubleBackToExitPressedOnce = false
     private var vibrate: Boolean = true
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,12 +46,34 @@ class TimerActivity : AppCompatActivity() {
         val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
         val userPreferences = UserPreferences(this)
         lifecycleScope.launch {
-            initAds()
             userPreferences.getUserVibration().collect(){ vibration ->
                 runOnUiThread {
                     vibrate = vibration ?: true
                 }
             }
+        }
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            userPreferences.getUserPremium().collect { premium ->
+                if(premium == true || premium == null){
+                    initAds()
+                }
+            }
+        }
+
+        try {
+            val display: Display? = windowManager?.defaultDisplay
+            val size = Point()
+            display?.getSize(size)
+            val width: Int = size.x  //540
+            val height: Int = size.y //960
+            if (width > 540 && height > 960) {
+                //
+            } else {
+                binding.trainingAnimation.isVisible = false
+            }
+        } catch (e: Exception) {
+            //Log.e("ScreenDebug", "Error detecting screen")
         }
 
         binding.timerCount.text = viewModel.formatTime(viewModel.totalTime.value ?: 8)
@@ -190,20 +215,33 @@ class TimerActivity : AppCompatActivity() {
 
         binding.btnBackTimer.setOnClickListener {
             viewModel.trainingStep.value = 0
+            doubleBackToExitPressedOnce = true
             onBackPressedDispatcher.onBackPressed()
         }
 
-        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true){
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                lifecycleScope.launch {
-                    viewModel.stopTimer(this@TimerActivity)
-                    viewModel.calculateTotalTime()
-                    withContext(Dispatchers.Main){
-                        viewModel.trainingStep.value = 0
-                        viewModelStore.clear()
-                        finish()
+                if (doubleBackToExitPressedOnce) {
+                    lifecycleScope.launch {
+                        viewModel.stopTimer(this@TimerActivity)
+                        viewModel.calculateTotalTime()
+                        withContext(Dispatchers.Main){
+                            viewModel.trainingStep.value = 0
+                            viewModelStore.clear()
+                            finish()
+                        }
                     }
+                    return
                 }
+                doubleBackToExitPressedOnce = true
+                Snackbar.make(
+                    binding.root,
+                    getString(R.string.press_twice_text),
+                    Snackbar.LENGTH_LONG
+                ).show()
+                Handler(Looper.getMainLooper()).postDelayed(kotlinx.coroutines.Runnable {
+                    doubleBackToExitPressedOnce = false
+                }, 5000)
             }
         })
     }
@@ -216,6 +254,38 @@ class TimerActivity : AppCompatActivity() {
             withContext(Dispatchers.Main){
                 viewModel.trainingStep.value = 0
                 viewModelStore.clear()
+            }
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            val controller = window.insetsController
+            controller?.hide(WindowInsets.Type.statusBars() or WindowInsets.Type.navigationBars())
+            controller?.systemBarsBehavior = WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        } else {*/
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LOW_PROFILE
+        //}
+    }
+
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+
+        // Mostrar de nuevo la barra de estado y los iconos cuando la actividad pierda el foco
+        if (!hasFocus) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                val controller = window.insetsController
+                controller?.show(WindowInsets.Type.statusBars() or WindowInsets.Type.navigationBars())
+            } else {
+                window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
             }
         }
     }
@@ -248,7 +318,7 @@ class TimerActivity : AppCompatActivity() {
                 }
 
                 override fun onAdLoaded() {
-                    //binding.adView.isVisible = true
+                    binding.adView.isVisible = true
                     // Code to be executed when an ad finishes loading.
                 }
 

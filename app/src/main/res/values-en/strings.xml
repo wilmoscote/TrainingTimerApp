@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Training Timer</string>
     <string name="config_button_hint">Settings button</string>
     <string name="break_info">Break</string>
     <string name="go_go">Let\'s Go!</string>
@@ -37,4 +36,5 @@
     <string name="play_button_description">play button</string>
     <string name="stop_button_description">stop button</string>
     <string name="update_string"><b>A new version is available.</b>\nWe invite you to update the application.</string>
+    <string name="press_twice_text">Press Back again to exit.</string>
 </resources>

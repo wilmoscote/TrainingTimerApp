@@ -28,6 +28,8 @@
     <string name="cancel">Cancelar</string>
     <string name="but_update">Actualizar</string>
     <string name="terms">Términos y Condiciones</string>
+    <string name="remove_ads">Remover Anuncios</string>
+    <string name="press_twice_text">Presione Atrás nuevamente para salir.</string>
     <string name="update_string"><b>Hay una nueva versión disponible.</b>\nLe invitamos a actualizar la aplicación.</string>
     <string name="policies_flexifit" translatable="false">FLEXIFIT PRIVACY POLICY</string>
 
@@ -37,10 +39,16 @@
     <string name="icon_language_description">Ícono de idioma</string>
     <string name="icon_vibration_description">Ícono de vibración del dispositivo</string>
     <string name="icon_terms_description">Ícono de terminos y condiciones</string>
+    <string name="icon_remove_ads">Ícono de remover anuncios</string>
     <string name="pause_button_description">Botón de pausa</string>
     <string name="play_button_description">Botón de reproducir</string>
     <string name="stop_button_description">Botón de parar</string>
-    <string name="app_name">Temporizador de Entrenamiento</string>
+    <string name="purcharse_error">Ha ocurrido un error durante el proceso de compra.</string>
+    <string name="purcharse_success">Compra realizada con éxito.</string>
+    <string name="purcharse_restored">Compra restaurada</string>
+    <string name="purcharse_status_unknown">La compra se está procesando.</string>
+    <string name="purcharse_status_pending">La compra está pendiente, complete la transacción.</string>
+    <string name="app_name" translatable="false">Training Timer</string>
 
     <string name="privacy_policy" translatable="false">This privacy policy governs your use of the software application FlexiFit for Android mobile devices that was created by WMSoftware.\nWhat information we collect?\nFlexiFit application does not collect personal information like name, surname, age, date of birth, etc.\nWe use Google supplied APP performance tracking information to improve Application. This application only makes use of the sound your Android mobile phone to create the alarm.\nGoogle Analytics\nThis Application uses Google Analytics to help us analyze how you use app. It helps us to improve this product.\nThanks Google Analytics we know how long you use app, what kind of device you\'re using, where are you from and a little bit more. All this is used to improve the app.\nRead more about Google Analytics\nFirebase\nWe use Firebase to store all the app information. Information like personal data and manage the e-mail login to our app.\nYou can see the entire privacy policy of firebase here.\nhttps://firebase.google.com/support/privacy/?hl=es-419\nAdvertisement\nGoogle Admob privacy policy is here: https://support.google.com/admob/answer/6128543?hl=en.\nThird party vendors, including Google, use cookies to serve ads based on a user\'s prior visits to your website.\nContact\nTo contact us please use email: wilfredmoscote@gmail.com\n\n-Acknowledgements\nWe use these libraries to make FlexiFit:\n-shawnlin NumberPicker\n-mikhaellopez CircularProgressBar\n- Lottie\n- Google Fonts\n- Google Icons</string>
     <string name="default_notification_channel_id" translatable="false">2626</string>

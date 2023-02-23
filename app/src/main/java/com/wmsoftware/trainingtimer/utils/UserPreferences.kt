@@ -29,6 +29,10 @@ class UserPreferences(private val context: Context){
         preferences[intPreferencesKey("language")]
     }
 
+    fun getUserPremium() = dataStore.data.map { preferences ->
+        preferences[booleanPreferencesKey("ads")]
+    }
+
     /** SETTERS **/
     suspend fun saveTheme(isDark: Boolean) {
         dataStore.edit { preferences ->
@@ -45,6 +49,12 @@ class UserPreferences(private val context: Context){
     suspend fun saveLanguage(language: Int) {
         dataStore.edit { preferences ->
             preferences[intPreferencesKey("language")] = language
+        }
+    }
+
+    suspend fun saveUserPremium(isPremium: Boolean) {
+        dataStore.edit { preferences ->
+            preferences[booleanPreferencesKey("ads")] = isPremium
         }
     }
 }

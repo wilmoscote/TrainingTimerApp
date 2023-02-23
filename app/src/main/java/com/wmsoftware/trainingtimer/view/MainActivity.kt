@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
     private val viewModel: TrainingTimerViewModel by lazy {
         TrainingTimerViewModel.getInstance()
     }
-    private val languageCodes = arrayOf("df", "en", "es", "pt")
+    private val languageCodes = arrayOf("nn", "en", "es", "pt")
     val userPreferences = UserPreferences(this)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,7 +58,6 @@ class MainActivity : AppCompatActivity() {
 
 
         lifecycleScope.launch(Dispatchers.IO) {
-            initAds()
             FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
                 if (!task.isSuccessful) {
                     return@OnCompleteListener
@@ -110,7 +109,17 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch(Dispatchers.IO) {
             userPreferences.getUserLanguage().collect { language ->
                 runOnUiThread {
-                    setLocale(languageCodes[language ?: 1])
+                    if(language != null){
+                        setLocale(languageCodes[language])
+                    }
+                }
+            }
+        }
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            userPreferences.getUserPremium().collect { premium ->
+                if(premium == true || premium == null){
+                    initAds()
                 }
             }
         }
@@ -194,7 +203,7 @@ class MainActivity : AppCompatActivity() {
             } else {
                 Snackbar.make(
                     binding.root,
-                    "Debe ingresar un tiempo mínimo de 5 segundos.",
+                    "Debe ingresar un tiempo mínimo de 5 segundos de descanso y por ronda.",
                     Snackbar.LENGTH_SHORT
                 ).show()
             }
@@ -203,22 +212,23 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        lifecycleScope.launch(Dispatchers.IO) {
-            userPreferences.getUserLanguage().collect { language ->
-                runOnUiThread {
-                    setLocale(languageCodes[language ?: 1])
-                }
-            }
-        }
     }
 
     private fun setLocale(language: String) {
-        val resources = resources
-        val metrics = resources.displayMetrics
-        val configuration = resources.configuration
-        configuration.locale = Locale(language)
-        resources.updateConfiguration(configuration, metrics)
-        onConfigurationChanged(configuration)
+        if(language != "nn") {
+            val resources = resources
+            val metrics = resources.displayMetrics
+            val configuration = resources.configuration
+            configuration.locale = Locale(language)
+            resources.updateConfiguration(configuration, metrics)
+            onConfigurationChanged(configuration)
+        } else {
+            val locale = Locale.getDefault()
+            Locale.setDefault(locale)
+            val config = resources.configuration
+            config.setLocale(locale)
+            resources.updateConfiguration(config, resources.displayMetrics)
+        }
     }
 
     private fun forceUpdate() {
@@ -278,7 +288,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 override fun onAdLoaded() {
-                    //binding.adView.isVisible = true
+                    binding.adView.isVisible = true
                     // Code to be executed when an ad finishes loading.
                 }
 
