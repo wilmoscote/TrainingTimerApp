@@ -37,8 +37,14 @@ class SettingActivity : AppCompatActivity(), PurchasesUpdatedListener {
     private lateinit var binding: ActivitySettingBinding
     private lateinit var userPreferences: UserPreferences
     private var selectedLanguage = 0
+    private var selectedPrepareTime = 0
+    private var selectedCountdown = 0
+    private var selectedTypeSound = 0
     var checkedItem = 0
     private val languageCodes = arrayOf("nn","en", "es", "pt")
+    private lateinit var prepareTimeValues : Array<String>
+    private lateinit var countdownValues: Array<String>
+    private lateinit var typeSoundValues: Array<String>
     lateinit var billingClient: BillingClient
     lateinit var planProductDetails: MutableList<ProductDetails>
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,6 +54,9 @@ class SettingActivity : AppCompatActivity(), PurchasesUpdatedListener {
         userPreferences = UserPreferences(this)
         lifecycleScope.launch(Dispatchers.IO) {
             initBilling()
+            prepareTimeValues = arrayOf(getString(R.string.five_secs),getString(R.string.ten_secs),getString(R.string.fiveteen_secs))
+            countdownValues = arrayOf(getString(R.string.three_secs),getString(R.string.five_secs),getString(R.string.ten_secs))
+            typeSoundValues = arrayOf(getString(R.string.whistle),getString(R.string.bell))
             userPreferences.getUserTheme().collect { theme ->
                 runOnUiThread {
                     binding.switchTheme.isChecked = theme ?: false
@@ -69,6 +78,59 @@ class SettingActivity : AppCompatActivity(), PurchasesUpdatedListener {
             userPreferences.getUserVibration().collect { vibrate ->
                 runOnUiThread {
                     binding.switchVibrate.isChecked = vibrate ?: true
+                }
+            }
+        }
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            userPreferences.getUserSoundEnable().collect { sound ->
+                runOnUiThread {
+                    binding.switchSound.isChecked = sound ?: true
+                }
+            }
+        }
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            userPreferences.getTypeSound().collect { type ->
+                runOnUiThread {
+                    try {
+                        binding.txtCurrentSound.text = typeSoundValues[type]
+                        selectedTypeSound = type
+                    } catch (e:Exception){
+                        typeSoundValues = arrayOf(getString(R.string.whistle),getString(R.string.bell))
+                        binding.txtCurrentSound.text = typeSoundValues[type]
+                        selectedTypeSound = type
+                    }
+                }
+            }
+        }
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            userPreferences.getCountdown().collect { countdown ->
+                runOnUiThread {
+                    try {
+                        binding.txtCurrentCountdown.text = countdownValues[countdown]
+                        selectedCountdown = countdown
+                    } catch (e:Exception){
+                        countdownValues = arrayOf(getString(R.string.three_secs),getString(R.string.five_secs),getString(R.string.ten_secs))
+                        binding.txtCurrentCountdown.text = countdownValues[countdown]
+                        selectedCountdown = countdown
+                    }
+                }
+            }
+        }
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            userPreferences.getPrepareTime().collect { prepareTime ->
+                runOnUiThread {
+                    try {
+                        binding.txtCurrentPreparingTime.text = prepareTimeValues[prepareTime]
+                        selectedPrepareTime = prepareTime
+                    } catch (e:Exception){
+                        prepareTimeValues = arrayOf(getString(R.string.five_secs),getString(R.string.ten_secs),getString(R.string.fiveteen_secs))
+                        binding.txtCurrentPreparingTime.text = prepareTimeValues[prepareTime]
+                        selectedPrepareTime = prepareTime
+                    }
                 }
             }
         }
@@ -114,6 +176,12 @@ class SettingActivity : AppCompatActivity(), PurchasesUpdatedListener {
             }
         }
 
+        binding.switchSound.setOnCheckedChangeListener { _, isChecked ->
+            lifecycleScope.launch(Dispatchers.IO) {
+                userPreferences.saveSoundEnable(isChecked)
+            }
+        }
+
         binding.btnBack.setOnClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
@@ -137,19 +205,101 @@ class SettingActivity : AppCompatActivity(), PurchasesUpdatedListener {
             showLanguageDialog()
         }
 
-        binding.btnAds.setOnClickListener {
-            launchPurchaseFlow(planProductDetails[0])
+        binding.layoutPreparingTime.setOnClickListener {
+            showPrepareTimeDialog()
         }
 
-        binding.versionInfo.text = "v${BuildConfig.VERSION_NAME} By Flexifit"
+        binding.layoutCountdown.setOnClickListener {
+            showCountdownDialog()
+        }
+
+        binding.layoutTypeSound.setOnClickListener {
+            showTypeSoundDialog()
+        }
+
+        binding.btnAds.setOnClickListener {
+            try {
+                launchPurchaseFlow(planProductDetails[0])
+            } catch (e:Exception){
+                //
+            }
+        }
+
+        binding.versionInfo.text = getString(R.string.version_info,BuildConfig.VERSION_NAME)
 
         binding.txtCurrentLanguage.text = resources.configuration.locales.get(0).displayName.toString()
     }
 
-    private fun showLanguageDialog(){
-        val singleItems = mutableListOf("Idioma del dispositivo","Inglés","Español","Portugués")
+    private fun showTypeSoundDialog(){
+        val singleItems = mutableListOf(getString(R.string.whistle).uppercase(),getString(R.string.bell).uppercase())
         MaterialAlertDialogBuilder(this, R.style.MaterialAlertDialog_rounded)
-            .setTitle("CAMBIAR IDIOMA")
+            .setTitle(getString(R.string.change_sound_text).uppercase())
+            .setPositiveButton(resources.getString(R.string.accept)) { dialog, which ->
+                lifecycleScope.launch(Dispatchers.IO) {
+                    userPreferences.saveTypeSound(selectedTypeSound)
+                    runOnUiThread {
+                        binding.txtCurrentSound.text = typeSoundValues[selectedTypeSound]
+                    }
+                }
+            }
+            .setNegativeButton(resources.getString(R.string.cancel)){dialog, which ->
+                dialog.dismiss()
+            }
+            .setSingleChoiceItems(singleItems.toTypedArray(), selectedTypeSound) { dialog, which ->
+                selectedTypeSound = which
+            }
+            .setCancelable(false)
+            .show()
+    }
+
+    private fun showCountdownDialog(){
+        val singleItems = mutableListOf(getString(R.string.three_secs_long),getString(R.string.five_secs_long),getString(R.string.ten_secs_long))
+        MaterialAlertDialogBuilder(this, R.style.MaterialAlertDialog_rounded)
+            .setTitle(getString(R.string.countdown_title))
+            .setPositiveButton(resources.getString(R.string.accept)) { dialog, which ->
+                lifecycleScope.launch(Dispatchers.IO) {
+                    userPreferences.saveCountdown(selectedCountdown)
+                    runOnUiThread {
+                        binding.txtCurrentCountdown.text = countdownValues[selectedCountdown]
+                    }
+                }
+            }
+            .setNegativeButton(resources.getString(R.string.cancel)){dialog, which ->
+                dialog.dismiss()
+            }
+            .setSingleChoiceItems(singleItems.toTypedArray(), selectedCountdown) { dialog, which ->
+                selectedCountdown = which
+            }
+            .setCancelable(false)
+            .show()
+    }
+
+    private fun showPrepareTimeDialog(){
+        val singleItems = mutableListOf(getString(R.string.five_secs_long),getString(R.string.ten_secs_long),getString(R.string.fiveteen_secs_long))
+        MaterialAlertDialogBuilder(this, R.style.MaterialAlertDialog_rounded)
+            .setTitle(getString(R.string.preparation_time_title))
+            .setPositiveButton(resources.getString(R.string.accept)) { dialog, which ->
+                lifecycleScope.launch(Dispatchers.IO) {
+                    userPreferences.savePrepareTime(selectedPrepareTime)
+                    runOnUiThread {
+                        binding.txtCurrentPreparingTime.text = prepareTimeValues[selectedPrepareTime]
+                    }
+                }
+            }
+            .setNegativeButton(resources.getString(R.string.cancel)){dialog, which ->
+                dialog.dismiss()
+            }
+            .setSingleChoiceItems(singleItems.toTypedArray(), selectedPrepareTime) { dialog, which ->
+                selectedPrepareTime = which
+            }
+            .setCancelable(false)
+            .show()
+    }
+
+    private fun showLanguageDialog(){
+        val singleItems = mutableListOf(getString(R.string.device_language),getString(R.string.english),getString(R.string.spanish),getString(R.string.portuguese))
+        MaterialAlertDialogBuilder(this, R.style.MaterialAlertDialog_rounded)
+            .setTitle(getString(R.string.change_language_title))
             .setPositiveButton(resources.getString(R.string.accept)) { dialog, which ->
                 lifecycleScope.launch(Dispatchers.IO) {
                     userPreferences.saveLanguage(selectedLanguage)
@@ -364,7 +514,6 @@ class SettingActivity : AppCompatActivity(), PurchasesUpdatedListener {
         val purchasesResult = billingClient.queryPurchasesAsync(params.build())
 
         for (purcharse in purchasesResult.purchasesList){
-            Log.d("BuyDebug","History: ${purcharse.toString()} produc: ${purcharse.products[0].toString()}")
             userPreferences.getUserPremium().collect { premium ->
                 if (purcharse.products[0].toString() == "remove_ads" && (premium == true || premium == null)){
                     userPreferences.saveUserPremium(false)

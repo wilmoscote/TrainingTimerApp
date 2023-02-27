@@ -1,6 +1,9 @@
 package com.wmsoftware.trainingtimer.view
 
+import android.app.Service
+import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.Point
 import android.media.MediaPlayer
@@ -12,6 +15,8 @@ import android.view.*
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
+import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelStore
@@ -24,6 +29,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.mikhaellopez.circularprogressbar.CircularProgressBar
 import com.wmsoftware.trainingtimer.R
 import com.wmsoftware.trainingtimer.databinding.ActivityTimerBinding
+import com.wmsoftware.trainingtimer.utils.TimerService
 import com.wmsoftware.trainingtimer.utils.UserPreferences
 import com.wmsoftware.trainingtimer.viewmodel.TrainingTimerViewModel
 import kotlinx.coroutines.Dispatchers
@@ -37,18 +43,20 @@ class TimerActivity : AppCompatActivity() {
         TrainingTimerViewModel.getInstance()
     }
     val TAG = "TimerDebug"
+    private var timerServiceIntent: Intent? = null
     var doubleBackToExitPressedOnce = false
-    private var vibrate: Boolean = true
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityTimerBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+
         val userPreferences = UserPreferences(this)
+        timerServiceIntent = Intent(this, TimerService::class.java)
         lifecycleScope.launch {
-            userPreferences.getUserVibration().collect(){ vibration ->
+            userPreferences.getUserVibration().collect { vibration ->
                 runOnUiThread {
-                    vibrate = vibration ?: true
+                    viewModel.vibrate = vibration ?: true
                 }
             }
         }
@@ -102,15 +110,6 @@ class TimerActivity : AppCompatActivity() {
                 }
                 2 -> {
                     binding.trainingAnimation.setAnimation(R.raw.workout)
-                    if(vibrate){
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                            val vibrationEffect = VibrationEffect.createOneShot(1000, VibrationEffect.DEFAULT_AMPLITUDE)
-                            vibrator.vibrate(vibrationEffect)
-                        } else {
-                            @Suppress("DEPRECATION")
-                            vibrator.vibrate(1000)
-                        }
-                    }
                 }
                 3 -> {
                     binding.btnBackTimer.isVisible = true
@@ -118,18 +117,6 @@ class TimerActivity : AppCompatActivity() {
                     binding.trainingAnimation.scaleX = 1.3f
                     binding.trainingAnimation.scaleY = 1.3f
                     binding.trainingAnimation.setAnimation(R.raw.claps)
-                    if(vibrate){
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                            val customVibrationPattern = longArrayOf(0, 500, 100, 500, 100, 500) // milisegundos de vibración y pausa alternadamente
-                            val vibrationEffect = VibrationEffect.createWaveform(customVibrationPattern, -1) // -1 para que no se repita
-                            vibrator.vibrate(vibrationEffect)
-                        } else {
-                            @Suppress("DEPRECATION")
-                            vibrator.vibrate(1000)
-                        }
-                    }
-
-                    MediaPlayer.create(this, R.raw.sound_end).start()
                 }
             }
             binding.trainingAnimation.playAnimation()
@@ -261,6 +248,18 @@ class TimerActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        if (viewModel.isRunning.value == true) {
+            timerServiceIntent?.apply {
+                putExtra("EXTRA_SESSION_DURATION",(viewModel.totalTime.value ?: 10) + (viewModel.prepareTimeTotal-viewModel.elapsedPrepareTime))
+                putExtra("EXTRA_SESSION_PROGRESS", (viewModel.notificationElapsedTime))
+                action = TimerService.ACTION_START_TIMER
+            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+               startForegroundService(timerServiceIntent)
+            } else {
+                startService(timerServiceIntent)
+            }
+        }
     }
 
 
@@ -274,6 +273,10 @@ class TimerActivity : AppCompatActivity() {
         } else {*/
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LOW_PROFILE
         //}
+        timerServiceIntent?.apply {
+            action = TimerService.ACTION_STOP_TIMER
+        }
+        stopService(timerServiceIntent)
     }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {

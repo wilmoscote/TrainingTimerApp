@@ -84,7 +84,6 @@
                     android:textColor="?textAppearanceCaption"
                     android:textSize="50sp" />
             </FrameLayout>
-
             <!-- SELECTOR DE TIEMPO DE LA RONDA -->
             <TextView
                 android:id="@+id/timerInfoTitle"
@@ -318,7 +317,44 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <ImageView
+                android:id="@+id/btnProfiles"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="20dp"
+                android:background="?selectableItemBackgroundBorderless"
+                android:contentDescription="@string/config_button_hint"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_profile"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btnSettings" />
 
+            <FrameLayout
+                android:id="@+id/layoutCurrentSession"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/card"
+                android:layout_marginTop="5dp"
+                android:visibility="gone"
+                android:layout_marginHorizontal="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/roundsNumberPicker" >
+                <TextView
+                    android:id="@+id/txtCurrentSession"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="4dp"
+                    android:layout_marginHorizontal="15dp"
+                    android:layout_gravity="center_horizontal"
+                    android:fontFamily="@font/poppinsregular"
+                    tools:text="Sesión actual: Sesion test #1"
+                    android:textColor="?textAppearanceCaption"
+                    android:textSize="14sp"
+                    />
+            </FrameLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
     <Button

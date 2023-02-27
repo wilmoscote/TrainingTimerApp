@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/mySessionsOption"
+        android:title="@string/my_sessions_menu" />
+    <item
+        android:id="@+id/saveSessionOption"
+        android:title="@string/save_session_menu" />
+</menu>
+
+
