@@ -46,7 +46,8 @@
     <string name="purcharse_status_unknown">A compra está sendo processada.</string>
     <string name="purcharse_status_pending">A compra está pendente, conclua a transação.</string>
     <string name="my_sessions_menu">Minhas sessões</string>
-    <string name="save_session_menu">Salvar sessão</string>
+    <string name="save_session_menu">Salvar nova sessão</string>
+    <string name="save_session_changes">Salvar alterações</string>
     <string name="three_secs">3 SEG</string>
     <string name="ten_secs">10 SEG</string>
     <string name="countdown_text">Contagem regressiva</string>

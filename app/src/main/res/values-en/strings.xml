@@ -46,7 +46,8 @@
     <string name="purcharse_status_unknown">The purchase is being processed.</string>
     <string name="purcharse_status_pending">The purchase is pending, please complete the transaction.</string>
     <string name="my_sessions_menu">My sessions</string>
-    <string name="save_session_menu">Save session</string>
+    <string name="save_session_menu">Save new session</string>
+    <string name="save_session_changes">Save changes</string>
     <string name="three_secs">3 SEC</string>
     <string name="ten_secs">10 SEC</string>
     <string name="countdown_text">Countdown</string>

@@ -6,6 +6,10 @@
     <item
         android:id="@+id/saveSessionOption"
         android:title="@string/save_session_menu" />
+
+    <item
+        android:id="@+id/saveSessionChangesOption"
+        android:title="@string/save_session_changes" />
 </menu>
 
 

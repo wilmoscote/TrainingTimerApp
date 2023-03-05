@@ -1,6 +1,7 @@
 package com.wmsoftware.trainingtimer.view
 
 import android.content.ActivityNotFoundException
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
@@ -12,12 +13,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.core.view.marginStart
 import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
@@ -61,15 +64,48 @@ class MainActivity : AppCompatActivity() {
     private val userPreferences = UserPreferences(this)
     private var profileSelected = 0
     private lateinit var userProfiles: MutableList<Profile>
-    private lateinit var lastSesionDelete: Profile
+    private var lastSesionDelete: Profile? = null
+    private var actualSession:Profile? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val window: Window = window
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-
-
+        //Inicializo el viewModel para setear los valores por defecto
+        //Obtener ultima sesión guardada
+        lifecycleScope.launch {
+            userPreferences.getLastSession().collect { session ->
+                if(session != null){
+                    try {
+                        actualSession = session
+                        runOnUiThread {
+                            viewModel.totalRoundTime.value = session.roundTime
+                            viewModel.breakTime.value = session.breakTime
+                            viewModel.rounds.value = session.rounds
+                            viewModel.totalTime.value = ((session.roundTime + session.breakTime) * session.rounds) - session.breakTime
+                            binding.roundsNumberPicker.value = session.rounds
+                            binding.secondsPicker.value = session.roundSeconds
+                            binding.minutePicker.value = session.roundMinutes
+                            binding.secondsPicker2.value = session.breakSeconds
+                            binding.minutePicker2.value = session.breakMinutes
+                            viewModel.roundsSecondTime = session.roundSeconds
+                            viewModel.roundMinuteTime = session.roundMinutes
+                            viewModel.breakSecondTime = session.breakSeconds
+                            viewModel.breakMinuteTime = session.breakMinutes
+                            binding.layoutCurrentSession.isVisible = true
+                            binding.txtCurrentSession.text = getString(R.string.current_session,session.name)
+                            viewModel.calculateTotalTime()
+                            //viewModel.calculateTotalTimeManually(session.roundTime,session.breakTime,session.rounds)
+                        }
+                    } catch (e:Exception){
+                        Log.d(TAG,e.message.toString())
+                    }
+                } else {
+                    viewModel.init(applicationContext)
+                }
+            }
+        }
         lifecycleScope.launch(Dispatchers.IO) {
             FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
                 if (!task.isSuccessful) {
@@ -126,6 +162,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+
         lifecycleScope.launch(Dispatchers.IO) {
             userPreferences.getUserLanguage().collect { language ->
                 runOnUiThread {
@@ -144,11 +181,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        //Inicializo el viewModel para setear los valores por defecto
-        lifecycleScope.launch {
-            viewModel.init(applicationContext)
-            viewModel.calculateTotalTime()
-        }
+
         val typefaceBold = Typeface.createFromAsset(assets, "Poppins-Bold.ttf")
         val typefaceRegular = Typeface.createFromAsset(assets, "Poppins-Regular.ttf")
         binding.minutePicker.typeface = typefaceRegular
@@ -220,6 +253,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.btnProfiles.setOnClickListener {
+            // Obtener la opción "Guardar cambios" del menú
+            val saveSessionChangesOption = popupMenu.menu.findItem(R.id.saveSessionChangesOption)
+            // Verificar si se debe ocultar la opción "Guardar cambios"
+            saveSessionChangesOption.isVisible = actualSession != null
             //Guardar Perfil
             popupMenu.show()
         }
@@ -243,6 +280,11 @@ class MainActivity : AppCompatActivity() {
                         } catch (e:Exception){
                             //
                         }
+                        profileSelected = try {
+                            userProfiles.indexOfFirst { it.id == actualSession?.id }
+                        } catch (e:Exception){
+                            0
+                        }
 
                         MaterialAlertDialogBuilder(this, R.style.MaterialAlertDialog_rounded)
                             .setTitle(getString(R.string.my_sessions_title))
@@ -253,7 +295,7 @@ class MainActivity : AppCompatActivity() {
                                     viewModel.breakTime.value =
                                         userProfiles[profileSelected].breakTime
                                     viewModel.rounds.value = userProfiles[profileSelected].rounds
-                                    viewModel.calculateTotalTime()
+
                                     runOnUiThread {
                                         binding.roundsNumberPicker.value = userProfiles[profileSelected].rounds
                                         binding.secondsPicker.value = userProfiles[profileSelected].roundSeconds
@@ -267,6 +309,8 @@ class MainActivity : AppCompatActivity() {
                                         binding.layoutCurrentSession.isVisible = true
                                         binding.txtCurrentSession.text = getString(R.string.current_session,userProfiles[profileSelected].name)
                                     }
+                                    viewModel.calculateTotalTime()
+                                    userPreferences.saveLastSession(userProfiles[profileSelected])
                                 }
                             }
                             .setSingleChoiceItems(
@@ -282,45 +326,31 @@ class MainActivity : AppCompatActivity() {
                                 MaterialAlertDialogBuilder(
                                     this,
                                     R.style.MaterialAlertDialog_rounded
-                                )
-                                    .setTitle(getString(R.string.delete_session))
+                                ).setTitle(getString(R.string.delete_session))
                                     .setMessage(getString(R.string.delete_session_message,userProfiles[profileSelected].name))
                                     .setPositiveButton(getString(R.string.delete_option)) { _, _ ->
                                         CoroutineScope(Dispatchers.IO).launch {
-
-                                            val profileToDelete =
-                                                userProfiles.find { it.id == userProfiles[profileSelected].id }
-                                            if (profileToDelete != null) {
-                                                lastSesionDelete = profileToDelete
-                                                userProfiles.remove(profileToDelete)
-                                            }
-                                            userPreferences.saveProfiles(userProfiles.toList())
-                                            runOnUiThread {
-                                                Snackbar.make(
-                                                    binding.root,
-                                                    getString(R.string.session_deleted),
-                                                    Snackbar.LENGTH_LONG
-                                                )
-                                                    .setAction(
-                                                        getString(R.string.undo_option)
-                                                    ) {
-                                                        CoroutineScope(Dispatchers.IO).launch {
-                                                            userProfiles.add(lastSesionDelete)
-                                                            userPreferences.saveProfiles(
-                                                                userProfiles
-                                                            )
-                                                            runOnUiThread {
-                                                                Snackbar.make(
-                                                                    binding.root,
-                                                                    getString(R.string.session_restored),
-                                                                    Snackbar.LENGTH_LONG
-                                                                ).show()
-                                                            }
-                                                        }
-                                                    }
-                                                    .show()
+                                            val profileToDelete = userProfiles.find { it.id == userProfiles[profileSelected].id }
+                                            profileToDelete?.let {
+                                                lastSesionDelete = it
+                                                userProfiles.removeAll { profile -> profile.id == it.id }
+                                                userPreferences.saveProfiles(userProfiles)
                                             }
                                         }
+                                        Snackbar.make(
+                                            binding.root,
+                                            getString(R.string.session_deleted),
+                                            Snackbar.LENGTH_LONG
+                                        ).setAction(getString(R.string.undo_option)) {
+                                            CoroutineScope(Dispatchers.IO).launch {
+                                                lastSesionDelete?.let {
+                                                    userProfiles.add(it)
+                                                    userPreferences.saveProfiles(userProfiles)
+                                                    lastSesionDelete = null
+                                                }
+                                            }
+                                        }.show()
+
                                     }
                                     .setNegativeButton(getString(R.string.cancel_option)) { _, _ ->
                                         dialog.dismiss()
@@ -346,19 +376,19 @@ class MainActivity : AppCompatActivity() {
                         builder.setView(viewDialog)
                         builder.setPositiveButton(getString(R.string.save_option)) { dialog, which ->
                             // Acción para el botón Guardar
-                            userProfiles.add(
-                                Profile(
-                                    UUID.randomUUID().toString(),
-                                    txtSessionName.text.toString(),
-                                    (viewModel.totalRoundTime.value ?: 10),
-                                    (viewModel.breakTime.value ?: 10),
-                                    (viewModel.rounds.value ?: 1),
-                                    viewModel.roundsSecondTime,
-                                    viewModel.roundMinuteTime,
-                                    viewModel.breakSecondTime,
-                                    viewModel.breakMinuteTime
-                                )
+                            val session = Profile(
+                                UUID.randomUUID().toString(),
+                                txtSessionName.text.toString(),
+                                (viewModel.totalRoundTime.value ?: 10),
+                                (viewModel.breakTime.value ?: 10),
+                                (viewModel.rounds.value ?: 1),
+                                viewModel.roundsSecondTime,
+                                viewModel.roundMinuteTime,
+                                viewModel.breakSecondTime,
+                                viewModel.breakMinuteTime
                             )
+                            userProfiles.add(session)
+                            actualSession = session
                             lifecycleScope.launch {
                                 userPreferences.saveProfiles(userProfiles.toList())
                                 runOnUiThread {
@@ -369,6 +399,7 @@ class MainActivity : AppCompatActivity() {
                                         Snackbar.LENGTH_SHORT
                                     ).show()
                                 }
+                                userPreferences.saveLastSession(session)
                             }
                         }
                         builder.setNegativeButton(getString(R.string.cancel_option), null)
@@ -383,6 +414,52 @@ class MainActivity : AppCompatActivity() {
                             Snackbar.LENGTH_SHORT
                         ).show()
                     }
+                    true
+                }
+                R.id.saveSessionChangesOption -> {
+                    // Guardar
+                    val builder = MaterialAlertDialogBuilder(
+                        this,
+                        R.style.MaterialAlertDialog_rounded
+                    )
+                    builder.setTitle(getString(R.string.save_session))
+                    builder.setMessage("Guardar cambios")
+                    builder.setPositiveButton(getString(R.string.save_option)) { dialog, which ->
+                        // Acción para el botón Guardar
+                        CoroutineScope(Dispatchers.IO).launch {
+                            val session = Profile(
+                                actualSession?.name ?: UUID.randomUUID().toString(),
+                                actualSession?.name ?: ":)",
+                                (viewModel.totalRoundTime.value ?: 10),
+                                (viewModel.breakTime.value ?: 10),
+                                (viewModel.rounds.value ?: 1),
+                                viewModel.roundsSecondTime,
+                                viewModel.roundMinuteTime,
+                                viewModel.breakSecondTime,
+                                viewModel.breakMinuteTime
+                            )
+                            val profileToUpdate = userProfiles.find { actualSession?.id == it.id }
+                            profileToUpdate?.let {
+                                userProfiles.removeAll { profile -> profile.id == it.id }
+                            }
+                            userProfiles.add(session)
+                            actualSession = session
+
+                            userPreferences.saveProfiles(userProfiles.toList())
+                            runOnUiThread {
+                                Snackbar.make(
+                                    binding.root,
+                                    getString(R.string.session_saved),
+                                    Snackbar.LENGTH_SHORT
+                                ).show()
+                            }
+                            userPreferences.saveLastSession(session)
+                        }
+                    }
+                    builder.setNegativeButton(getString(R.string.cancel_option), null)
+                    val dialog = builder.create()
+
+                    dialog.show()
                     true
                 }
                 else -> false

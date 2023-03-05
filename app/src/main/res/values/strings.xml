@@ -52,7 +52,8 @@
     <string name="purcharse_status_pending">La compra está pendiente, complete la transacción.</string>
     <string name="app_name" translatable="false">Training Timer</string>
     <string name="my_sessions_menu">Mis sesiones</string>
-    <string name="save_session_menu">Guardar sesión</string>
+    <string name="save_session_menu">Guardar nueva sesión</string>
+    <string name="save_session_changes">Guardar cambios</string>
     <string name="three_secs">3 SEG</string>
     <string name="three_secs_long">3 SEGUNDOS</string>
     <string name="five_secs">5 SEG</string>

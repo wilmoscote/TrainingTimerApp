@@ -157,6 +157,20 @@ class TrainingTimerViewModel : ViewModel(), CoroutineScope {
             progress.postValue(0f)
             totalTime.postValue((((totalRoundTime.value ?: 10) + (breakTime.value ?: 10)) * (rounds.value ?: 1)) - (breakTime.value ?: 10))
             progressMax.postValue(((((totalRoundTime.value ?: 10) + (breakTime.value ?: 10)) * (rounds.value ?: 1)) - (breakTime.value ?: 10)).toFloat())
+            Log.d(TAG,"TIMES: ${totalRoundTime.value.toString()} - ${breakTime.value.toString()} - ${rounds.value.toString()}")
+            Log.d(TAG,"Total Time: ${totalTime.value.toString()}")
+        } catch (e: Exception) {
+            //
+        }
+    }
+
+    fun calculateTotalTimeManually(roundTime: Int, breakTime: Int, rounds: Int) {
+        try {
+            progress.postValue(0f)
+            totalTime.postValue(((roundTime + breakTime) * rounds) - breakTime)
+            progressMax.postValue((((roundTime + breakTime) * rounds) - breakTime).toFloat())
+            Log.d(TAG,"TIMES: ${roundTime.toString()} - ${breakTime.toString()} - ${rounds.toString()}")
+            Log.d(TAG,"Total Time Manual: ${totalTime.value.toString()}")
         } catch (e: Exception) {
             //
         }

@@ -60,6 +60,13 @@ class UserPreferences(private val context: Context) {
         preferences[intPreferencesKey("prepare")] ?: 0
     }
 
+    fun getLastSession(): Flow<Profile?> {
+        return dataStore.data.map { preferences ->
+            val jsonString = preferences[stringPreferencesKey("last_session")]
+            jsonString?.let { Json.decodeFromString(it) }
+        }
+    }
+
 
     /** SETTERS **/
     suspend fun saveTheme(isDark: Boolean) {
@@ -114,6 +121,13 @@ class UserPreferences(private val context: Context) {
         val jsonString = Json.encodeToString(perfiles)
         dataStore.edit { preferences ->
             preferences[stringPreferencesKey("profiles")] = jsonString
+        }
+    }
+
+    suspend fun saveLastSession(session: Profile?) {
+        val jsonString = Json.encodeToString(session)
+        dataStore.edit { preferences ->
+            preferences[stringPreferencesKey("last_session")] = jsonString
         }
     }
 }
