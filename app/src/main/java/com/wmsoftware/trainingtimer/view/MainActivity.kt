@@ -99,7 +99,7 @@ class MainActivity : AppCompatActivity() {
                             //viewModel.calculateTotalTimeManually(session.roundTime,session.breakTime,session.rounds)
                         }
                     } catch (e:Exception){
-                        Log.d(TAG,e.message.toString())
+                        //Log.d(TAG,e.message.toString())
                     }
                 } else {
                     viewModel.init(applicationContext)
@@ -422,14 +422,15 @@ class MainActivity : AppCompatActivity() {
                         this,
                         R.style.MaterialAlertDialog_rounded
                     )
-                    builder.setTitle(getString(R.string.save_session))
-                    builder.setMessage("Guardar cambios")
+                    builder.setTitle(getString(R.string.save_session_changes))
                     builder.setPositiveButton(getString(R.string.save_option)) { dialog, which ->
                         // Acción para el botón Guardar
                         CoroutineScope(Dispatchers.IO).launch {
+
+                            val profileToUpdate = userProfiles.find { actualSession?.id == it.id }
                             val session = Profile(
-                                actualSession?.name ?: UUID.randomUUID().toString(),
-                                actualSession?.name ?: ":)",
+                                profileToUpdate?.id ?: UUID.randomUUID().toString(),
+                                profileToUpdate?.name ?: ":)",
                                 (viewModel.totalRoundTime.value ?: 10),
                                 (viewModel.breakTime.value ?: 10),
                                 (viewModel.rounds.value ?: 1),
@@ -438,10 +439,12 @@ class MainActivity : AppCompatActivity() {
                                 viewModel.breakSecondTime,
                                 viewModel.breakMinuteTime
                             )
-                            val profileToUpdate = userProfiles.find { actualSession?.id == it.id }
+                            //Log.d("ProfileDebug","Profile to update: ${profileToUpdate.toString()}")
                             profileToUpdate?.let {
-                                userProfiles.removeAll { profile -> profile.id == it.id }
+                                userProfiles.remove(profileToUpdate)
+                                //Log.d("ProfileDebug","Profile removed")
                             }
+                            //Log.d("ProfileDebug","Profile Updated: ${session.toString()}")
                             userProfiles.add(session)
                             actualSession = session
 
