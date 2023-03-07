@@ -8,6 +8,7 @@ import android.os.CountDownTimer
 import android.os.IBinder
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationCompat.FOREGROUND_SERVICE_IMMEDIATE
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
@@ -140,7 +141,26 @@ class TimerService : Service() {
                 }
             }
         }
+        val pendingIntent: PendingIntent =
+            Intent(this, TimerActivity::class.java).let { notificationIntent ->
+                PendingIntent.getActivity(
+                    this, 0, notificationIntent,
+                    PendingIntent.FLAG_IMMUTABLE
+                )
+            }
 
+        val notification = NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
+            .setContentTitle(getString(R.string.session_in_progress))
+            .setContentText(getString(R.string.workout_progress))
+            .setSmallIcon(R.drawable.ic_countdown)
+            .setContentIntent(pendingIntent)
+            .setOngoing(true)
+            .setForegroundServiceBehavior(FOREGROUND_SERVICE_IMMEDIATE)
+            .setAutoCancel(false)
+            .setProgress(intent?.getIntExtra(EXTRA_SESSION_DURATION, 0) ?: 0, intent?.getIntExtra(EXTRA_SESSION_PROGRESS, 0) ?: 0, false)
+            .build()
+
+        startForeground(NOTIFICATION_ID, notification)
         return START_STICKY
     }
 

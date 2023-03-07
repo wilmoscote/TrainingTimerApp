@@ -48,6 +48,7 @@
     <string name="my_sessions_menu">Mis sesiones</string>
     <string name="save_session_menu">Guardar nueva sesión</string>
     <string name="save_session_changes">Guardar cambios</string>
+    <string name="action_error">Ha ocurrido un error, intentelo nuevamente.</string>
     <string name="three_secs">3 SEG</string>
     <string name="ten_secs">10 SEG</string>
     <string name="countdown_text">Cuenta atrás</string>

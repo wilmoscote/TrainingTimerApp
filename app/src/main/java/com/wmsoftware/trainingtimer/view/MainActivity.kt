@@ -1,11 +1,14 @@
 package com.wmsoftware.trainingtimer.view
 
+import android.Manifest
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.Typeface
 import android.net.Uri
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -15,6 +18,8 @@ import android.view.Window
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.PopupMenu
@@ -22,6 +27,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.core.view.marginStart
 import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.LoadAdError
@@ -66,12 +72,26 @@ class MainActivity : AppCompatActivity() {
     private lateinit var userProfiles: MutableList<Profile>
     private var lastSesionDelete: Profile? = null
     private var actualSession:Profile? = null
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted: Boolean ->
+        if (isGranted) {
+            //
+        } else {
+            //
+        }
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val window: Window = window
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        try {
+            Glide.with(this).load(R.drawable.logo).error(R.drawable.splash_image).into(binding.logo)
+        } catch (e:Exception){
+            Glide.with(this).load(R.drawable.ic_countdown).into(binding.logo)
+        }
         //Inicializo el viewModel para setear los valores por defecto
         //Obtener ultima sesión guardada
         lifecycleScope.launch {
@@ -262,6 +282,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         popupMenu.setOnMenuItemClickListener { menuItem ->
+            try {
+
             when (menuItem.itemId) {
                 R.id.mySessionsOption -> {
                     // Acción para la opción "Mis sesiones"
@@ -467,6 +489,10 @@ class MainActivity : AppCompatActivity() {
                 }
                 else -> false
             }
+            } catch (e: Exception){
+                Snackbar.make(binding.root,getString(R.string.action_error),Snackbar.LENGTH_SHORT).show()
+                false
+            }
         }
 
         binding.timerStartButton.setOnClickListener {
@@ -480,6 +506,14 @@ class MainActivity : AppCompatActivity() {
                     Snackbar.LENGTH_SHORT
                 ).show()
             }
+        }
+
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                askPermission()
+            }
+        } catch (e:Exception){
+            //
         }
     }
 
@@ -596,6 +630,29 @@ class MainActivity : AppCompatActivity() {
                 override fun onAdOpened() {
                     // Code to be executed when an ad opens an overlay that
                     // covers the screen.
+                }
+            }
+        }
+    }
+
+    private fun askPermission(){
+        when {
+            ContextCompat.checkSelfPermission(
+                this, Manifest.permission.POST_NOTIFICATIONS
+            ) == PackageManager.PERMISSION_GRANTED -> {
+                // You can use the API that requires the permission.
+                //Log.e(TAG, "onCreate: PERMISSION GRANTED")
+                //sendNotification(this)
+            }
+            shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS) -> {
+                //
+            }
+            else -> {
+                // The registered ActivityResultCallback gets the result of this request
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    requestPermissionLauncher.launch(
+                        Manifest.permission.POST_NOTIFICATIONS
+                    )
                 }
             }
         }

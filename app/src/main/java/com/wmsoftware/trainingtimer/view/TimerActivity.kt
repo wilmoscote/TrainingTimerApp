@@ -70,14 +70,13 @@ class TimerActivity : AppCompatActivity() {
         }
 
         try {
-            val display: Display? = windowManager?.defaultDisplay
-            val size = Point()
-            display?.getSize(size)
-            val width: Int = size.x  //540
-            val height: Int = size.y //960
-            if (width > 540 && height > 960) {
-                //
-            } else {
+            val displayMetrics = applicationContext.resources.displayMetrics
+            val screenWidthDp = displayMetrics.widthPixels / displayMetrics.density
+            val screenHeightDp = displayMetrics.heightPixels / displayMetrics.density
+            val smallestWidthDp = if (screenWidthDp < screenHeightDp) screenWidthDp else screenHeightDp
+
+            if (smallestWidthDp <= 360.0) {
+                // Ocultar las vistas no compatibles aquí
                 binding.trainingAnimation.isVisible = false
             }
         } catch (e: Exception) {
@@ -249,15 +248,19 @@ class TimerActivity : AppCompatActivity() {
         super.onPause()
         window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         if (viewModel.isRunning.value == true) {
-            timerServiceIntent?.apply {
-                putExtra("EXTRA_SESSION_DURATION",(viewModel.totalTime.value ?: 10) + (viewModel.prepareTimeTotal-viewModel.elapsedPrepareTime))
-                putExtra("EXTRA_SESSION_PROGRESS", (viewModel.notificationElapsedTime))
-                action = TimerService.ACTION_START_TIMER
-            }
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-               startForegroundService(timerServiceIntent)
-            } else {
-                startService(timerServiceIntent)
+            try {
+                timerServiceIntent?.apply {
+                    putExtra("EXTRA_SESSION_DURATION",(viewModel.totalTime.value ?: 10) + (viewModel.prepareTimeTotal-viewModel.elapsedPrepareTime))
+                    putExtra("EXTRA_SESSION_PROGRESS", (viewModel.notificationElapsedTime))
+                    action = TimerService.ACTION_START_TIMER
+                }
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    applicationContext.startForegroundService(timerServiceIntent)
+                } else {
+                    startService(timerServiceIntent)
+                }
+            } catch (e:Exception){
+                //Log.d("TimerDebug","Error: ${e.message.toString()}")
             }
         }
     }

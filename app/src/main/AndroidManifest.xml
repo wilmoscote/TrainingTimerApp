@@ -23,6 +23,7 @@
         <activity
             android:name=".view.TimerActivity"
             android:screenOrientation="portrait"
+            android:launchMode="singleTop"
             android:exported="false" />
         <activity
             android:name=".view.SplashActivity"
