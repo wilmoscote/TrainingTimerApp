@@ -276,10 +276,14 @@ class TimerActivity : AppCompatActivity() {
         } else {*/
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LOW_PROFILE
         //}
-        timerServiceIntent?.apply {
-            action = TimerService.ACTION_STOP_TIMER
+        try {
+            timerServiceIntent?.apply {
+                action = TimerService.ACTION_STOP_TIMER
+            }
+            stopService(timerServiceIntent)
+        } catch (e:Exception){
+            //
         }
-        stopService(timerServiceIntent)
     }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
