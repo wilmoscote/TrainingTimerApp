@@ -114,11 +114,10 @@ class TimerService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        createNotificationChannel()
         when (intent?.action) {
             ACTION_START_TIMER -> {
                 if (!isRunning) {
-                    createNotificationChannel()
-
                     val sessionDuration = intent.getIntExtra(EXTRA_SESSION_DURATION, 0).toLong()
                     val sessionProgress = intent.getIntExtra(EXTRA_SESSION_PROGRESS, 0).toLong()
                     sessionDurationTotal = intent.getIntExtra(EXTRA_SESSION_DURATION, 0)
